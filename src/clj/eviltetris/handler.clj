@@ -1,7 +1,8 @@
 (ns eviltetris.handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [ring.util.response :as resp]))
 
 (defroutes cljs-routes
   (route/resources "/")
