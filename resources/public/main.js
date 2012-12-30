@@ -27442,7 +27442,16 @@ goog.provide("eviltetris.core");
 goog.require("cljs.core");
 goog.require("clojure.browser.repl");
 clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
-alert("hello");
-eviltetris.core.foo = function foo(x) {
-  return cljs.core.println.call(null, x, "Hello, World!")
+eviltetris.core.paint_board = function paint_board(board) {
+  eviltetris.core.ctx.fillStyle = "black";
+  return eviltetris.core.ctx.fillRect(0, 0, 320, 480)
 };
+eviltetris.core.main_loop = function main_loop(ctx, board) {
+  return eviltetris.core.paint_board.call(null, board)
+};
+eviltetris.core.init = function init() {
+  var canvas__109820 = document.getElementById("canvas");
+  var ctx__109821 = canvas__109820.getContext("2d");
+  return eviltetris.core.main_loop.call(null, ctx__109821, cljs.core.PersistentVector.EMPTY)
+};
+goog.exportSymbol("eviltetris.core.init", eviltetris.core.init);

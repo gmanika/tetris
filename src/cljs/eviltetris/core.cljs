@@ -3,9 +3,21 @@
 
 (repl/connect "http://localhost:9000/repl")
 
-(js/alert "hello")
+(defn pos
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn paint-board
+  [board]
+    (set! (. ctx -fillStyle) "black")
+    (.fillRect ctx 0 0 320 480)
+    (for [
+
+(defn main-loop
+  [ctx board]
+    (paint-board board)
+)
+
+(defn ^:export init
+  []
+  (let [canvas (.getElementById js/document "canvas")
+        ctx (.getContext canvas "2d")]
+    (main-loop ctx [])))
