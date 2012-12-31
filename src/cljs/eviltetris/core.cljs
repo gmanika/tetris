@@ -208,12 +208,12 @@
 
 (defn next-tick
   [state]
-  (js/setTimeout #(main-loop state) 100))
+  (js/setTimeout #(main-loop state) 5))
 
 
 (defn main-loop
   [state]
-    (let [{:keys [ctx board ticklength piece score tick]} state
+    (let [{:keys [ctx board piece score tick]} state
           last-key (consume-keypress)]
       (if (collides? board piece)
         (game-over state)
@@ -221,11 +221,12 @@
           (paint-board (:ctx state) (overlay (:board state) (:piece state)))
           (cond
             (collides? board piece) (game-over state)
+            (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick (assoc state :piece (move-left piece)))
             (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick (assoc state :piece (rotate piece)))
             (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick (assoc state :piece (move-right piece)))
-            (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick (assoc state :piece (move-left piece)))
+            (and (= last-key 40) (not (collides? board (move-down piece)))) (next-tick (assoc state :piece (move-down piece)))
             (= last-key 32) (next-tick (assoc state :piece (hard-drop board piece)))
-            (< (- (get-tick) tick) 400) (next-tick state)
+            (< (- (get-tick) tick) 350) (next-tick state)
             (collides? board (move-down piece)) (next-tick (assoc state :score (+ score (account-lines board))
                                                                         :board (remove-lines (overlay board piece))
                                                                         :piece (get-next-piece)
@@ -237,7 +238,6 @@
   [ctx]
   { :ctx ctx
     :board (create-board)
-    :ticklenght 400
     :piece (get-next-piece)
     :score  0
     :tick (get-tick)})
