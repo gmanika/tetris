@@ -166,9 +166,14 @@
   []
   [3 0 (cycle (rand-nth shapes))])
 
+
+(defn create-line
+  []
+    (vec (take 10 (repeat nil))))
+
 (defn create-board
   []
-  (vec (take 20 (repeat (vec (take 10 (repeat nil)))))))
+  (vec (take 20 (repeat (create-line)))))
 
 (declare main-loop)
 
@@ -179,6 +184,12 @@
 (defn next-tick
   [ctx board piece tick]
   (js/setTimeout #(main-loop ctx board piece tick) 100))
+
+(defn remove-lines
+  [lines]
+  (let [filtered-lines (filter (fn [x] (not-every? keyword? x)) lines)
+        difference (- (count lines) (count filtered-lines))]
+    (into (vec (repeat difference (create-line))) filtered-lines)))
 
 (defn main-loop
   ([ctx board] (main-loop ctx board (get-next-piece) (tick)))
@@ -191,7 +202,7 @@
         (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) (tick))
         (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) (tick))
         :else (if (collides? board (move-down piece))
-                (next-tick ctx (overlay board piece) (get-next-piece) (tick))
+                (next-tick ctx (remove-lines (overlay board piece)) (get-next-piece) (tick))
                 (next-tick ctx board (move-down piece) (tick)))))))
     
 
