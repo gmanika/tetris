@@ -27719,9 +27719,9 @@ goog.require("goog.events");
 goog.require("clojure.browser.repl");
 clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
 eviltetris.core.load_image = function load_image(file) {
-  var image__105525 = new Image;
-  image__105525.src = [cljs.core.str("images/"), cljs.core.str(file)].join("");
-  return image__105525
+  var image__136179 = new Image;
+  image__136179.src = [cljs.core.str("images/"), cljs.core.str(file)].join("");
+  return image__136179
 };
 eviltetris.core.images = cljs.core.ObjMap.fromObject(["\ufdd0'blue", "\ufdd0'cyan", "\ufdd0'green", "\ufdd0'magenta", "\ufdd0'orange", "\ufdd0'red", "\ufdd0'yellow"], {"\ufdd0'blue":eviltetris.core.load_image.call(null, "blue.png"), "\ufdd0'cyan":eviltetris.core.load_image.call(null, "cyan.png"), "\ufdd0'green":eviltetris.core.load_image.call(null, "green.png"), "\ufdd0'magenta":eviltetris.core.load_image.call(null, "magenta.png"), "\ufdd0'orange":eviltetris.core.load_image.call(null, "orange.png"), 
 "\ufdd0'red":eviltetris.core.load_image.call(null, "red.png"), "\ufdd0'yellow":eviltetris.core.load_image.call(null, "yellow.png")});
@@ -27732,15 +27732,15 @@ eviltetris.core.shapes = cljs.core.PersistentVector.fromArray([cljs.core.Persist
 true), cljs.core.PersistentVector.fromArray([1, 0, "\ufdd0'magenta"], true), cljs.core.PersistentVector.fromArray([2, 1, "\ufdd0'magenta"], true)], true)], true);
 eviltetris.core._STAR_last_key_pressed_STAR_ = null;
 eviltetris.core.keypress = function keypress(event) {
-  var key__105527 = event.keyCode;
-  eviltetris.core._STAR_last_key_pressed_STAR_ = key__105527;
+  var key__136181 = event.keyCode;
+  eviltetris.core._STAR_last_key_pressed_STAR_ = key__136181;
   event.preventDefault();
   return event.stopPropagation()
 };
 eviltetris.core.consume_keypress = function consume_keypress() {
-  var lastkey__105529 = eviltetris.core._STAR_last_key_pressed_STAR_;
+  var lastkey__136183 = eviltetris.core._STAR_last_key_pressed_STAR_;
   eviltetris.core._STAR_last_key_pressed_STAR_ = null;
-  return lastkey__105529
+  return lastkey__136183
 };
 eviltetris.core.fill_rect = function fill_rect(ctx, x, y, sx, sy, color) {
   ctx.fillStyle = color;
@@ -27752,44 +27752,44 @@ eviltetris.core.paint_block = function paint_block(ctx, x, y, color) {
 eviltetris.core.paint_board = function paint_board(ctx, board) {
   eviltetris.core.fill_rect.call(null, ctx, 0, 0, 320, 480, "black");
   return cljs.core.dorun.call(null, function() {
-    var iter__2464__auto____105587 = function iter__105559(s__105560) {
+    var iter__2464__auto____136241 = function iter__136213(s__136214) {
       return new cljs.core.LazySeq(null, false, function() {
-        var s__105560__105575 = s__105560;
+        var s__136214__136229 = s__136214;
         while(true) {
-          if(cljs.core.seq.call(null, s__105560__105575)) {
-            var x__105576 = cljs.core.first.call(null, s__105560__105575);
-            var iterys__2462__auto____105585 = function(s__105560__105575, x__105576) {
-              return function iter__105561(s__105562) {
-                return new cljs.core.LazySeq(null, false, function(s__105560__105575, x__105576) {
+          if(cljs.core.seq.call(null, s__136214__136229)) {
+            var x__136230 = cljs.core.first.call(null, s__136214__136229);
+            var iterys__2462__auto____136239 = function(s__136214__136229, x__136230) {
+              return function iter__136215(s__136216) {
+                return new cljs.core.LazySeq(null, false, function(s__136214__136229, x__136230) {
                   return function() {
-                    var s__105562__105581 = s__105562;
+                    var s__136216__136235 = s__136216;
                     while(true) {
-                      if(cljs.core.seq.call(null, s__105562__105581)) {
-                        var y__105582 = cljs.core.first.call(null, s__105562__105581);
+                      if(cljs.core.seq.call(null, s__136216__136235)) {
+                        var y__136236 = cljs.core.first.call(null, s__136216__136235);
                         return cljs.core.cons.call(null, function() {
-                          var temp__3974__auto____105583 = board.call(null, y__105582).call(null, x__105576);
-                          if(cljs.core.truth_(temp__3974__auto____105583)) {
-                            var color__105584 = temp__3974__auto____105583;
-                            return eviltetris.core.paint_block.call(null, ctx, x__105576, y__105582, color__105584)
+                          var temp__3974__auto____136237 = board.call(null, y__136236).call(null, x__136230);
+                          if(cljs.core.truth_(temp__3974__auto____136237)) {
+                            var color__136238 = temp__3974__auto____136237;
+                            return eviltetris.core.paint_block.call(null, ctx, x__136230, y__136236, color__136238)
                           }else {
                             return null
                           }
-                        }(), iter__105561.call(null, cljs.core.rest.call(null, s__105562__105581)))
+                        }(), iter__136215.call(null, cljs.core.rest.call(null, s__136216__136235)))
                       }else {
                         return null
                       }
                       break
                     }
                   }
-                }(s__105560__105575, x__105576), null)
+                }(s__136214__136229, x__136230), null)
               }
-            }(s__105560__105575, x__105576);
-            var fs__2463__auto____105586 = cljs.core.seq.call(null, iterys__2462__auto____105585.call(null, cljs.core.range.call(null, 20)));
-            if(fs__2463__auto____105586) {
-              return cljs.core.concat.call(null, fs__2463__auto____105586, iter__105559.call(null, cljs.core.rest.call(null, s__105560__105575)))
+            }(s__136214__136229, x__136230);
+            var fs__2463__auto____136240 = cljs.core.seq.call(null, iterys__2462__auto____136239.call(null, cljs.core.range.call(null, 20)));
+            if(fs__2463__auto____136240) {
+              return cljs.core.concat.call(null, fs__2463__auto____136240, iter__136213.call(null, cljs.core.rest.call(null, s__136214__136229)))
             }else {
-              var G__105588 = cljs.core.rest.call(null, s__105560__105575);
-              s__105560__105575 = G__105588;
+              var G__136242 = cljs.core.rest.call(null, s__136214__136229);
+              s__136214__136229 = G__136242;
               continue
             }
           }else {
@@ -27799,7 +27799,7 @@ eviltetris.core.paint_board = function paint_board(ctx, board) {
         }
       }, null)
     };
-    return iter__2464__auto____105587.call(null, cljs.core.range.call(null, 10))
+    return iter__2464__auto____136241.call(null, cljs.core.range.call(null, 10))
   }())
 };
 eviltetris.core.patch_board = function patch_board(board, color, x, y) {
@@ -27809,66 +27809,66 @@ eviltetris.core.test_pattern = function test_pattern(board) {
   return eviltetris.core.patch_board.call(null, board, cljs.core.rand_nth.call(null, cljs.core.keys.call(null, eviltetris.core.images)), cljs.core.rand_int.call(null, 10), cljs.core.rand_int.call(null, 20))
 };
 eviltetris.core.overlay = function overlay(board, piece) {
-  var vec__105599__105600 = piece;
-  var px__105601 = cljs.core.nth.call(null, vec__105599__105600, 0, null);
-  var py__105602 = cljs.core.nth.call(null, vec__105599__105600, 1, null);
-  var shape__105603 = cljs.core.nth.call(null, vec__105599__105600, 2, null);
+  var vec__136253__136254 = piece;
+  var px__136255 = cljs.core.nth.call(null, vec__136253__136254, 0, null);
+  var py__136256 = cljs.core.nth.call(null, vec__136253__136254, 1, null);
+  var shape__136257 = cljs.core.nth.call(null, vec__136253__136254, 2, null);
   return cljs.core.apply.call(null, cljs.core.comp, cljs.core.map.call(null, function(dot) {
-    var vec__105604__105605 = dot;
-    var dx__105606 = cljs.core.nth.call(null, vec__105604__105605, 0, null);
-    var dy__105607 = cljs.core.nth.call(null, vec__105604__105605, 1, null);
-    var dcolor__105608 = cljs.core.nth.call(null, vec__105604__105605, 2, null);
+    var vec__136258__136259 = dot;
+    var dx__136260 = cljs.core.nth.call(null, vec__136258__136259, 0, null);
+    var dy__136261 = cljs.core.nth.call(null, vec__136258__136259, 1, null);
+    var dcolor__136262 = cljs.core.nth.call(null, vec__136258__136259, 2, null);
     return function(board) {
-      return eviltetris.core.patch_board.call(null, board, dcolor__105608, px__105601 + dx__105606, py__105602 + dy__105607)
+      return eviltetris.core.patch_board.call(null, board, dcolor__136262, px__136255 + dx__136260, py__136256 + dy__136261)
     }
-  }, shape__105603)).call(null, board)
+  }, shape__136257)).call(null, board)
 };
 eviltetris.core.collides_QMARK_ = function collides_QMARK_(board, piece) {
-  var vec__105625__105626 = piece;
-  var px__105627 = cljs.core.nth.call(null, vec__105625__105626, 0, null);
-  var py__105628 = cljs.core.nth.call(null, vec__105625__105626, 1, null);
-  var shape__105629 = cljs.core.nth.call(null, vec__105625__105626, 2, null);
+  var vec__136279__136280 = piece;
+  var px__136281 = cljs.core.nth.call(null, vec__136279__136280, 0, null);
+  var py__136282 = cljs.core.nth.call(null, vec__136279__136280, 1, null);
+  var shape__136283 = cljs.core.nth.call(null, vec__136279__136280, 2, null);
   return cljs.core.some.call(null, cljs.core.false_QMARK_, cljs.core.map.call(null, function(dot) {
-    var vec__105630__105631 = dot;
-    var dx__105632 = cljs.core.nth.call(null, vec__105630__105631, 0, null);
-    var dy__105633 = cljs.core.nth.call(null, vec__105630__105631, 1, null);
-    var ___105634 = cljs.core.nth.call(null, vec__105630__105631, 2, null);
-    var fx__105635 = dx__105632 + px__105627;
-    var fy__105636 = dy__105633 + py__105628;
-    var and__3822__auto____105638 = function() {
-      var and__3822__auto____105637 = 0 < fx__105635;
-      if(and__3822__auto____105637) {
-        return fx__105635 < 10
+    var vec__136284__136285 = dot;
+    var dx__136286 = cljs.core.nth.call(null, vec__136284__136285, 0, null);
+    var dy__136287 = cljs.core.nth.call(null, vec__136284__136285, 1, null);
+    var ___136288 = cljs.core.nth.call(null, vec__136284__136285, 2, null);
+    var fx__136289 = dx__136286 + px__136281;
+    var fy__136290 = dy__136287 + py__136282;
+    var and__3822__auto____136292 = function() {
+      var and__3822__auto____136291 = 0 < fx__136289;
+      if(and__3822__auto____136291) {
+        return fx__136289 < 10
       }else {
-        return and__3822__auto____105637
+        return and__3822__auto____136291
       }
     }();
-    if(cljs.core.truth_(and__3822__auto____105638)) {
-      var and__3822__auto____105640 = function() {
-        var and__3822__auto____105639 = 0 < fy__105636;
-        if(and__3822__auto____105639) {
-          return fy__105636 < 20
+    if(cljs.core.truth_(and__3822__auto____136292)) {
+      var and__3822__auto____136294 = function() {
+        var and__3822__auto____136293 = 0 < fy__136290;
+        if(and__3822__auto____136293) {
+          return fy__136290 < 20
         }else {
-          return and__3822__auto____105639
+          return and__3822__auto____136293
         }
       }();
-      if(cljs.core.truth_(and__3822__auto____105640)) {
-        return board.call(null, fy__105636).call(null, fx__105635) == null
+      if(cljs.core.truth_(and__3822__auto____136294)) {
+        return board.call(null, fy__136290).call(null, fx__136289) == null
       }else {
-        return and__3822__auto____105640
+        return and__3822__auto____136294
       }
     }else {
-      return and__3822__auto____105638
+      return and__3822__auto____136292
     }
-  }, shape__105629))
+  }, shape__136283))
 };
 eviltetris.core.rotate_shape = function rotate_shape(shape) {
   return cljs.core.mapv.call(null, function(s) {
-    var vec__105646__105647 = s;
-    var x__105648 = cljs.core.nth.call(null, vec__105646__105647, 0, null);
-    var y__105649 = cljs.core.nth.call(null, vec__105646__105647, 1, null);
-    var color__105650 = cljs.core.nth.call(null, vec__105646__105647, 2, null);
-    return cljs.core.PersistentVector.fromArray([y__105649, x__105648, color__105650], true)
+    var vec__136300__136301 = s;
+    var x__136302 = cljs.core.nth.call(null, vec__136300__136301, 0, null);
+    var y__136303 = cljs.core.nth.call(null, vec__136300__136301, 1, null);
+    var color__136304 = cljs.core.nth.call(null, vec__136300__136301, 2, null);
+    return cljs.core.PersistentVector.fromArray([y__136303, x__136302, color__136304], true)
   }, shape)
 };
 eviltetris.core.tick = function tick() {
@@ -27898,22 +27898,40 @@ eviltetris.core.main_loop = function() {
   };
   var main_loop__4 = function(ctx, board, piece, previous_tick) {
     eviltetris.core.paint_board.call(null, ctx, eviltetris.core.overlay.call(null, board, piece));
-    var last_key__105652 = eviltetris.core.consume_keypress.call(null);
-    if(cljs.core._EQ_.call(null, last_key__105652, 37)) {
-      return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_left.call(null, piece), eviltetris.core.tick.call(null))
-    }else {
-      if(cljs.core._EQ_.call(null, last_key__105652, 39)) {
-        return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_right.call(null, piece), eviltetris.core.tick.call(null))
-      }else {
-        if("\ufdd0'else") {
-          if(cljs.core.truth_(eviltetris.core.collides_QMARK_.call(null, board, eviltetris.core.move_down.call(null, piece)))) {
-            return eviltetris.core.next_tick.call(null, ctx, eviltetris.core.overlay.call(null, board, piece), eviltetris.core.get_next_piece.call(null), eviltetris.core.tick.call(null))
-          }else {
-            return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_down.call(null, piece), eviltetris.core.tick.call(null))
-          }
+    var last_key__136310 = eviltetris.core.consume_keypress.call(null);
+    if(cljs.core.truth_(function() {
+      var and__3822__auto____136311 = cljs.core._EQ_.call(null, last_key__136310, 37);
+      if(and__3822__auto____136311) {
+        var and__3822__auto____136312 = cljs.core.not.call(null, eviltetris.core.collides_QMARK_.call(null, board, eviltetris.core.move_left.call(null, piece)));
+        if(and__3822__auto____136312) {
+          return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_left.call(null, piece), eviltetris.core.tick.call(null))
         }else {
-          return null
+          return and__3822__auto____136312
         }
+      }else {
+        return and__3822__auto____136311
+      }
+    }())) {
+      var and__3822__auto____136313 = cljs.core._EQ_.call(null, last_key__136310, 39);
+      if(and__3822__auto____136313) {
+        var and__3822__auto____136314 = cljs.core.not.call(null, eviltetris.core.collides_QMARK_.call(null, board, eviltetris.core.move_right.call(null, piece)));
+        if(and__3822__auto____136314) {
+          return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_right.call(null, piece), eviltetris.core.tick.call(null))
+        }else {
+          return and__3822__auto____136314
+        }
+      }else {
+        return and__3822__auto____136313
+      }
+    }else {
+      if("\ufdd0'else") {
+        if(cljs.core.truth_(eviltetris.core.collides_QMARK_.call(null, board, eviltetris.core.move_down.call(null, piece)))) {
+          return eviltetris.core.next_tick.call(null, ctx, eviltetris.core.overlay.call(null, board, piece), eviltetris.core.get_next_piece.call(null), eviltetris.core.tick.call(null))
+        }else {
+          return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_down.call(null, piece), eviltetris.core.tick.call(null))
+        }
+      }else {
+        return null
       }
     }
   };
@@ -27934,11 +27952,11 @@ eviltetris.core.create_board = function create_board() {
   return cljs.core.vec.call(null, cljs.core.take.call(null, 20, cljs.core.repeat.call(null, cljs.core.vec.call(null, cljs.core.take.call(null, 10, cljs.core.repeat.call(null, null))))))
 };
 eviltetris.core.init = function init() {
-  var canvas__105657 = document.getElementById("canvas");
-  var ctx__105658 = canvas__105657.getContext("2d");
-  var board__105659 = eviltetris.core.create_board.call(null);
-  var handler__105660 = new goog.events.KeyHandler(document, true);
-  goog.events.listen(handler__105660, "key", eviltetris.core.keypress);
-  return eviltetris.core.main_loop.call(null, ctx__105658, board__105659)
+  var canvas__136319 = document.getElementById("canvas");
+  var ctx__136320 = canvas__136319.getContext("2d");
+  var board__136321 = eviltetris.core.create_board.call(null);
+  var handler__136322 = new goog.events.KeyHandler(document, true);
+  goog.events.listen(handler__136322, "key", eviltetris.core.keypress);
+  return eviltetris.core.main_loop.call(null, ctx__136320, board__136321)
 };
 goog.exportSymbol("eviltetris.core.init", eviltetris.core.init);

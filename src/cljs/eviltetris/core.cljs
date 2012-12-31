@@ -91,8 +91,8 @@
             (let [[dx dy _] dot
                    fx (+ dx px)
                    fy (+ dy py)]
-              (and (< 0 fx 10)
-                   (< 0 fy 20)
+              (and (< -1 fx 10)
+                   (< -1 fy 20)
                    (nil? ((board fy) fx))))) shape))))
              
 (defn rotate-shape
@@ -134,18 +134,16 @@
     (paint-board ctx (overlay board piece))
     (let [last-key (consume-keypress)]
       (cond
-        (= last-key 37) (next-tick ctx board (move-left piece) (tick))
-        (= last-key 39) (next-tick ctx board (move-right piece) (tick))
+        (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) (tick))
+        (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) (tick))
         :else (if (collides? board (move-down piece))
                 (next-tick ctx (overlay board piece) (get-next-piece) (tick))
-                (next-tick ctx board (move-down piece) (tick)))))))
+                (next-tick ctx board (move-down piece) (tick)))))
     
 
 (defn create-board
   []
   (vec (take 20 (repeat (vec (take 10 (repeat nil)))))))
-
-
 
 (defn ^:export init
   []
