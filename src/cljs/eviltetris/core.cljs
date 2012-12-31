@@ -106,7 +106,7 @@
 
 (defn paint-board
   [ctx board]
-  (fill-rect ctx 0 0 320 480 "black")
+  (fill-rect ctx 0 0 320 480 "#4A4848")
   (dorun
     (for [x (range 10)
           y (range 20)]
@@ -187,11 +187,8 @@
 
 (defn game-over
   [ctx]
-  (main-loop ctx (create-board)))
-
-(defn next-tick
-  [ctx board piece tick]
-  (js/setTimeout #(main-loop ctx board piece tick) 100))
+  (let [gameover (.getElementById js/document "gameover")]
+    (set! (.-visibility (.-style gameover)) "visible")))
 
 (defn line-full?
   [line]
@@ -202,6 +199,11 @@
   (let [filtered-lines (filter line-full? lines)
         difference (- (count lines) (count filtered-lines))]
     (into (vec (repeat difference (create-line))) filtered-lines)))
+
+(defn next-tick
+  [ctx board piece tick]
+  (js/setTimeout #(main-loop ctx board piece tick) 100))
+
 
 (defn main-loop
   ([ctx board] (main-loop ctx board (get-next-piece) (tick)))
@@ -218,12 +220,20 @@
         (collides? board (move-down piece)) (next-tick ctx (remove-lines (overlay board piece)) (get-next-piece) (tick))
         :else  (next-tick ctx board (move-down piece) (tick))))))
     
-
-(defn ^:export init
+(defn ^:export start-game
   []
   (let [canvas (.getElementById js/document "canvas")
         ctx (.getContext canvas "2d")
         board (create-board)
-        handler (goog.events.KeyHandler. js/document true)]
-    (events/listen handler "key" keypress)
+        gameover (.getElementById js/document "gameover")]
+    (set! (.-visibility (.-style gameover)) "hidden")
     (main-loop ctx board)))
+
+(defn ^:export init
+  []
+    (let [handler (goog.events.KeyHandler. js/document true)]
+      (events/listen handler "key" keypress)
+      (start-game)))
+
+
+
