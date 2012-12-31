@@ -5,23 +5,23 @@ goog.require('goog.events');
 goog.require('clojure.browser.repl');
 clojure.browser.repl.connect.call(null,"http://localhost:9000/repl");
 eviltetris.core.load_image = (function load_image(file){
-var image__1142095 = (new Image());
-image__1142095.src = [cljs.core.str("images/"),cljs.core.str(file)].join('');
-return image__1142095;
+var image__1226595 = (new Image());
+image__1226595.src = [cljs.core.str("images/"),cljs.core.str(file)].join('');
+return image__1226595;
 });
 eviltetris.core.images = cljs.core.ObjMap.fromObject(["\uFDD0'blue","\uFDD0'cyan","\uFDD0'green","\uFDD0'magenta","\uFDD0'orange","\uFDD0'red","\uFDD0'yellow"],{"\uFDD0'blue":eviltetris.core.load_image.call(null,"blue.png"),"\uFDD0'cyan":eviltetris.core.load_image.call(null,"cyan.png"),"\uFDD0'green":eviltetris.core.load_image.call(null,"green.png"),"\uFDD0'magenta":eviltetris.core.load_image.call(null,"magenta.png"),"\uFDD0'orange":eviltetris.core.load_image.call(null,"orange.png"),"\uFDD0'red":eviltetris.core.load_image.call(null,"red.png"),"\uFDD0'yellow":eviltetris.core.load_image.call(null,"yellow.png")});
 eviltetris.core.shapes = cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'cyan"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'cyan"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'cyan"], true),cljs.core.PersistentVector.fromArray([3,1,"\uFDD0'cyan"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([2,0,"\uFDD0'cyan"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'cyan"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'cyan"], true),cljs.core.PersistentVector.fromArray([2,3,"\uFDD0'cyan"], true)], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,0,"\uFDD0'yellow"], true),cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'yellow"], true),cljs.core.PersistentVector.fromArray([1,0,"\uFDD0'yellow"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'yellow"], true)], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([3,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,0,"\uFDD0'magenta"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([2,0,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([3,1,"\uFDD0'magenta"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([3,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'magenta"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([2,0,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'magenta"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'magenta"], true)], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'green"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'green"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'green"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'green"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'green"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'green"], true),cljs.core.PersistentVector.fromArray([2,0,"\uFDD0'green"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'green"], true)], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,2,"\uFDD0'red"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'red"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'red"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'red"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,0,"\uFDD0'red"], true),cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'red"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'red"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'red"], true)], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'blue"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,2,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,0,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'blue"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([0,2,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'blue"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([2,0,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,0,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'blue"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'blue"], true)], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,1,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([0,2,"\uFDD0'orange"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0,0,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,0,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'orange"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([2,1,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([0,2,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'orange"], true)], true),cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([2,2,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,0,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,1,"\uFDD0'orange"], true),cljs.core.PersistentVector.fromArray([1,2,"\uFDD0'orange"], true)], true)], true)], true);
 eviltetris.core._STAR_last_key_pressed_STAR_ = null;
 eviltetris.core.keypress = (function keypress(event){
-var key__1142097 = event.keyCode;
-eviltetris.core._STAR_last_key_pressed_STAR_ = key__1142097;
+var key__1226597 = event.keyCode;
+eviltetris.core._STAR_last_key_pressed_STAR_ = key__1226597;
 event.preventDefault();
 return event.stopPropagation();
 });
 eviltetris.core.consume_keypress = (function consume_keypress(){
-var lastkey__1142099 = eviltetris.core._STAR_last_key_pressed_STAR_;
+var lastkey__1226599 = eviltetris.core._STAR_last_key_pressed_STAR_;
 eviltetris.core._STAR_last_key_pressed_STAR_ = null;
-return lastkey__1142099;
+return lastkey__1226599;
 });
 eviltetris.core.fill_rect = (function fill_rect(ctx,x,y,sx,sy,color){
 ctx.fillStyle = color;
@@ -32,44 +32,44 @@ return ctx.drawImage(eviltetris.core.images.call(null,color),(x * 24),(y * 24));
 });
 eviltetris.core.paint_board = (function paint_board(ctx,board){
 eviltetris.core.fill_rect.call(null,ctx,0,0,320,480,"black");
-return cljs.core.dorun.call(null,(function (){var iter__2464__auto____1142157 = (function iter__1142129(s__1142130){
+return cljs.core.dorun.call(null,(function (){var iter__2464__auto____1226657 = (function iter__1226629(s__1226630){
 return (new cljs.core.LazySeq(null,false,(function (){
-var s__1142130__1142145 = s__1142130;
+var s__1226630__1226645 = s__1226630;
 while(true){
-if(cljs.core.seq.call(null,s__1142130__1142145))
-{var x__1142146 = cljs.core.first.call(null,s__1142130__1142145);
-var iterys__2462__auto____1142155 = ((function (s__1142130__1142145,x__1142146){
-return (function iter__1142131(s__1142132){
-return (new cljs.core.LazySeq(null,false,((function (s__1142130__1142145,x__1142146){
+if(cljs.core.seq.call(null,s__1226630__1226645))
+{var x__1226646 = cljs.core.first.call(null,s__1226630__1226645);
+var iterys__2462__auto____1226655 = ((function (s__1226630__1226645,x__1226646){
+return (function iter__1226631(s__1226632){
+return (new cljs.core.LazySeq(null,false,((function (s__1226630__1226645,x__1226646){
 return (function (){
-var s__1142132__1142151 = s__1142132;
+var s__1226632__1226651 = s__1226632;
 while(true){
-if(cljs.core.seq.call(null,s__1142132__1142151))
-{var y__1142152 = cljs.core.first.call(null,s__1142132__1142151);
-return cljs.core.cons.call(null,(function (){var temp__3974__auto____1142153 = board.call(null,y__1142152).call(null,x__1142146);
-if(cljs.core.truth_(temp__3974__auto____1142153))
-{var color__1142154 = temp__3974__auto____1142153;
-return eviltetris.core.paint_block.call(null,ctx,x__1142146,y__1142152,color__1142154);
+if(cljs.core.seq.call(null,s__1226632__1226651))
+{var y__1226652 = cljs.core.first.call(null,s__1226632__1226651);
+return cljs.core.cons.call(null,(function (){var temp__3974__auto____1226653 = board.call(null,y__1226652).call(null,x__1226646);
+if(cljs.core.truth_(temp__3974__auto____1226653))
+{var color__1226654 = temp__3974__auto____1226653;
+return eviltetris.core.paint_block.call(null,ctx,x__1226646,y__1226652,color__1226654);
 } else
 {return null;
 }
-})(),iter__1142131.call(null,cljs.core.rest.call(null,s__1142132__1142151)));
+})(),iter__1226631.call(null,cljs.core.rest.call(null,s__1226632__1226651)));
 } else
 {return null;
 }
 break;
 }
-});})(s__1142130__1142145,x__1142146))
+});})(s__1226630__1226645,x__1226646))
 ,null));
-});})(s__1142130__1142145,x__1142146))
+});})(s__1226630__1226645,x__1226646))
 ;
-var fs__2463__auto____1142156 = cljs.core.seq.call(null,iterys__2462__auto____1142155.call(null,cljs.core.range.call(null,20)));
-if(fs__2463__auto____1142156)
-{return cljs.core.concat.call(null,fs__2463__auto____1142156,iter__1142129.call(null,cljs.core.rest.call(null,s__1142130__1142145)));
+var fs__2463__auto____1226656 = cljs.core.seq.call(null,iterys__2462__auto____1226655.call(null,cljs.core.range.call(null,20)));
+if(fs__2463__auto____1226656)
+{return cljs.core.concat.call(null,fs__2463__auto____1226656,iter__1226629.call(null,cljs.core.rest.call(null,s__1226630__1226645)));
 } else
 {{
-var G__1142158 = cljs.core.rest.call(null,s__1142130__1142145);
-s__1142130__1142145 = G__1142158;
+var G__1226658 = cljs.core.rest.call(null,s__1226630__1226645);
+s__1226630__1226645 = G__1226658;
 continue;
 }
 }
@@ -80,7 +80,7 @@ break;
 }
 }),null));
 });
-return iter__2464__auto____1142157.call(null,cljs.core.range.call(null,10));
+return iter__2464__auto____1226657.call(null,cljs.core.range.call(null,10));
 })());
 });
 eviltetris.core.patch_board = (function patch_board(board,color,x,y){
@@ -90,63 +90,63 @@ eviltetris.core.test_pattern = (function test_pattern(board){
 return eviltetris.core.patch_board.call(null,board,cljs.core.rand_nth.call(null,cljs.core.keys.call(null,eviltetris.core.images)),cljs.core.rand_int.call(null,10),cljs.core.rand_int.call(null,20));
 });
 eviltetris.core.overlay = (function overlay(board,piece){
-var vec__1142169__1142170 = piece;
-var px__1142171 = cljs.core.nth.call(null,vec__1142169__1142170,0,null);
-var py__1142172 = cljs.core.nth.call(null,vec__1142169__1142170,1,null);
-var shape__1142173 = cljs.core.nth.call(null,vec__1142169__1142170,2,null);
+var vec__1226669__1226670 = piece;
+var px__1226671 = cljs.core.nth.call(null,vec__1226669__1226670,0,null);
+var py__1226672 = cljs.core.nth.call(null,vec__1226669__1226670,1,null);
+var shape__1226673 = cljs.core.nth.call(null,vec__1226669__1226670,2,null);
 return cljs.core.apply.call(null,cljs.core.comp,cljs.core.map.call(null,(function (dot){
-var vec__1142174__1142175 = dot;
-var dx__1142176 = cljs.core.nth.call(null,vec__1142174__1142175,0,null);
-var dy__1142177 = cljs.core.nth.call(null,vec__1142174__1142175,1,null);
-var dcolor__1142178 = cljs.core.nth.call(null,vec__1142174__1142175,2,null);
+var vec__1226674__1226675 = dot;
+var dx__1226676 = cljs.core.nth.call(null,vec__1226674__1226675,0,null);
+var dy__1226677 = cljs.core.nth.call(null,vec__1226674__1226675,1,null);
+var dcolor__1226678 = cljs.core.nth.call(null,vec__1226674__1226675,2,null);
 return (function (board){
-return eviltetris.core.patch_board.call(null,board,dcolor__1142178,(px__1142171 + dx__1142176),(py__1142172 + dy__1142177));
+return eviltetris.core.patch_board.call(null,board,dcolor__1226678,(px__1226671 + dx__1226676),(py__1226672 + dy__1226677));
 });
-}),cljs.core.first.call(null,shape__1142173))).call(null,board);
+}),cljs.core.first.call(null,shape__1226673))).call(null,board);
 });
 eviltetris.core.collides_QMARK_ = (function collides_QMARK_(board,piece){
-var vec__1142195__1142196 = piece;
-var px__1142197 = cljs.core.nth.call(null,vec__1142195__1142196,0,null);
-var py__1142198 = cljs.core.nth.call(null,vec__1142195__1142196,1,null);
-var shape__1142199 = cljs.core.nth.call(null,vec__1142195__1142196,2,null);
+var vec__1226695__1226696 = piece;
+var px__1226697 = cljs.core.nth.call(null,vec__1226695__1226696,0,null);
+var py__1226698 = cljs.core.nth.call(null,vec__1226695__1226696,1,null);
+var shape__1226699 = cljs.core.nth.call(null,vec__1226695__1226696,2,null);
 return cljs.core.some.call(null,cljs.core.false_QMARK_,cljs.core.map.call(null,(function (dot){
-var vec__1142200__1142201 = dot;
-var dx__1142202 = cljs.core.nth.call(null,vec__1142200__1142201,0,null);
-var dy__1142203 = cljs.core.nth.call(null,vec__1142200__1142201,1,null);
-var ___1142204 = cljs.core.nth.call(null,vec__1142200__1142201,2,null);
-var fx__1142205 = (dx__1142202 + px__1142197);
-var fy__1142206 = (dy__1142203 + py__1142198);
-var and__3822__auto____1142208 = (function (){var and__3822__auto____1142207 = (-1 < fx__1142205);
-if(and__3822__auto____1142207)
-{return (fx__1142205 < 10);
+var vec__1226700__1226701 = dot;
+var dx__1226702 = cljs.core.nth.call(null,vec__1226700__1226701,0,null);
+var dy__1226703 = cljs.core.nth.call(null,vec__1226700__1226701,1,null);
+var ___1226704 = cljs.core.nth.call(null,vec__1226700__1226701,2,null);
+var fx__1226705 = (dx__1226702 + px__1226697);
+var fy__1226706 = (dy__1226703 + py__1226698);
+var and__3822__auto____1226708 = (function (){var and__3822__auto____1226707 = (-1 < fx__1226705);
+if(and__3822__auto____1226707)
+{return (fx__1226705 < 10);
 } else
-{return and__3822__auto____1142207;
+{return and__3822__auto____1226707;
 }
 })();
-if(cljs.core.truth_(and__3822__auto____1142208))
-{var and__3822__auto____1142210 = (function (){var and__3822__auto____1142209 = (-1 < fy__1142206);
-if(and__3822__auto____1142209)
-{return (fy__1142206 < 20);
+if(cljs.core.truth_(and__3822__auto____1226708))
+{var and__3822__auto____1226710 = (function (){var and__3822__auto____1226709 = (-1 < fy__1226706);
+if(and__3822__auto____1226709)
+{return (fy__1226706 < 20);
 } else
-{return and__3822__auto____1142209;
+{return and__3822__auto____1226709;
 }
 })();
-if(cljs.core.truth_(and__3822__auto____1142210))
-{return (board.call(null,fy__1142206).call(null,fx__1142205) == null);
+if(cljs.core.truth_(and__3822__auto____1226710))
+{return (board.call(null,fy__1226706).call(null,fx__1226705) == null);
 } else
-{return and__3822__auto____1142210;
+{return and__3822__auto____1226710;
 }
 } else
-{return and__3822__auto____1142208;
+{return and__3822__auto____1226708;
 }
-}),cljs.core.first.call(null,shape__1142199)));
+}),cljs.core.first.call(null,shape__1226699)));
 });
 eviltetris.core.rotate = (function rotate(piece){
-var vec__1142216__1142217 = piece;
-var px__1142218 = cljs.core.nth.call(null,vec__1142216__1142217,0,null);
-var py__1142219 = cljs.core.nth.call(null,vec__1142216__1142217,1,null);
-var shape__1142220 = cljs.core.nth.call(null,vec__1142216__1142217,2,null);
-return cljs.core.PersistentVector.fromArray([px__1142218,py__1142219,cljs.core.next.call(null,shape__1142220)], true);
+var vec__1226716__1226717 = piece;
+var px__1226718 = cljs.core.nth.call(null,vec__1226716__1226717,0,null);
+var py__1226719 = cljs.core.nth.call(null,vec__1226716__1226717,1,null);
+var shape__1226720 = cljs.core.nth.call(null,vec__1226716__1226717,2,null);
+return cljs.core.PersistentVector.fromArray([px__1226718,py__1226719,cljs.core.next.call(null,shape__1226720)], true);
 });
 eviltetris.core.tick = (function tick(){
 return (new Date()).getTime();
@@ -177,12 +177,13 @@ return setTimeout((function (){
 return eviltetris.core.main_loop.call(null,ctx,board,piece,tick);
 }),100);
 });
+eviltetris.core.line_full_QMARK_ = (function line_full_QMARK_(line){
+return cljs.core.not_every_QMARK_.call(null,cljs.core.keyword_QMARK_,line);
+});
 eviltetris.core.remove_lines = (function remove_lines(lines){
-var filtered_lines__1142223 = cljs.core.filter.call(null,(function (x){
-return cljs.core.not_every_QMARK_.call(null,cljs.core.keyword_QMARK_,x);
-}),lines);
-var difference__1142224 = (cljs.core.count.call(null,lines) - cljs.core.count.call(null,filtered_lines__1142223));
-return cljs.core.into.call(null,cljs.core.vec.call(null,cljs.core.repeat.call(null,difference__1142224,eviltetris.core.create_line.call(null))),filtered_lines__1142223);
+var filtered_lines__1226723 = cljs.core.filter.call(null,eviltetris.core.line_full_QMARK_,lines);
+var difference__1226724 = (cljs.core.count.call(null,lines) - cljs.core.count.call(null,filtered_lines__1226723));
+return cljs.core.into.call(null,cljs.core.vec.call(null,cljs.core.repeat.call(null,difference__1226724,eviltetris.core.create_line.call(null))),filtered_lines__1226723);
 });
 eviltetris.core.main_loop = (function() {
 var main_loop = null;
@@ -191,45 +192,49 @@ return main_loop.call(null,ctx,board,eviltetris.core.get_next_piece.call(null),e
 });
 var main_loop__4 = (function (ctx,board,piece,previous_tick){
 eviltetris.core.paint_board.call(null,ctx,eviltetris.core.overlay.call(null,board,piece));
-var last_key__1142229 = eviltetris.core.consume_keypress.call(null);
+var last_key__1226729 = eviltetris.core.consume_keypress.call(null);
 if(cljs.core.truth_(eviltetris.core.collides_QMARK_.call(null,board,piece)))
 {return eviltetris.core.game_over.call(null,ctx);
 } else
-{if((function (){var and__3822__auto____1142230 = cljs.core._EQ_.call(null,last_key__1142229,38);
-if(and__3822__auto____1142230)
+{if((function (){var and__3822__auto____1226730 = cljs.core._EQ_.call(null,last_key__1226729,38);
+if(and__3822__auto____1226730)
 {return cljs.core.not.call(null,eviltetris.core.collides_QMARK_.call(null,board,eviltetris.core.rotate.call(null,piece)));
 } else
-{return and__3822__auto____1142230;
+{return and__3822__auto____1226730;
 }
 })())
-{return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.rotate.call(null,piece),eviltetris.core.tick.call(null));
+{return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.rotate.call(null,piece),previous_tick);
 } else
-{if((function (){var and__3822__auto____1142231 = cljs.core._EQ_.call(null,last_key__1142229,39);
-if(and__3822__auto____1142231)
+{if((function (){var and__3822__auto____1226731 = cljs.core._EQ_.call(null,last_key__1226729,39);
+if(and__3822__auto____1226731)
 {return cljs.core.not.call(null,eviltetris.core.collides_QMARK_.call(null,board,eviltetris.core.move_right.call(null,piece)));
 } else
-{return and__3822__auto____1142231;
+{return and__3822__auto____1226731;
 }
 })())
-{return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.move_right.call(null,piece),eviltetris.core.tick.call(null));
+{return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.move_right.call(null,piece),previous_tick);
 } else
-{if((function (){var and__3822__auto____1142232 = cljs.core._EQ_.call(null,last_key__1142229,37);
-if(and__3822__auto____1142232)
+{if((function (){var and__3822__auto____1226732 = cljs.core._EQ_.call(null,last_key__1226729,37);
+if(and__3822__auto____1226732)
 {return cljs.core.not.call(null,eviltetris.core.collides_QMARK_.call(null,board,eviltetris.core.move_left.call(null,piece)));
 } else
-{return and__3822__auto____1142232;
+{return and__3822__auto____1226732;
 }
 })())
-{return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.move_left.call(null,piece),eviltetris.core.tick.call(null));
+{return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.move_left.call(null,piece),previous_tick);
 } else
-{if("\uFDD0'else")
+{if(((eviltetris.core.tick.call(null) - previous_tick) < 400))
+{return eviltetris.core.next_tick.call(null,ctx,board,piece,previous_tick);
+} else
 {if(cljs.core.truth_(eviltetris.core.collides_QMARK_.call(null,board,eviltetris.core.move_down.call(null,piece))))
 {return eviltetris.core.next_tick.call(null,ctx,eviltetris.core.remove_lines.call(null,eviltetris.core.overlay.call(null,board,piece)),eviltetris.core.get_next_piece.call(null),eviltetris.core.tick.call(null));
 } else
+{if("\uFDD0'else")
 {return eviltetris.core.next_tick.call(null,ctx,board,eviltetris.core.move_down.call(null,piece),eviltetris.core.tick.call(null));
-}
 } else
 {return null;
+}
+}
 }
 }
 }
@@ -251,11 +256,11 @@ return main_loop;
 })()
 ;
 eviltetris.core.init = (function init(){
-var canvas__1142237 = document.getElementById("canvas");
-var ctx__1142238 = canvas__1142237.getContext("2d");
-var board__1142239 = eviltetris.core.create_board.call(null);
-var handler__1142240 = (new goog.events.KeyHandler(document,true));
-goog.events.listen(handler__1142240,"key",eviltetris.core.keypress);
-return eviltetris.core.main_loop.call(null,ctx__1142238,board__1142239);
+var canvas__1226737 = document.getElementById("canvas");
+var ctx__1226738 = canvas__1226737.getContext("2d");
+var board__1226739 = eviltetris.core.create_board.call(null);
+var handler__1226740 = (new goog.events.KeyHandler(document,true));
+goog.events.listen(handler__1226740,"key",eviltetris.core.keypress);
+return eviltetris.core.main_loop.call(null,ctx__1226738,board__1226739);
 });
 goog.exportSymbol('eviltetris.core.init', eviltetris.core.init);

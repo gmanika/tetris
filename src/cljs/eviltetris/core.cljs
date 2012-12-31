@@ -185,9 +185,13 @@
   [ctx board piece tick]
   (js/setTimeout #(main-loop ctx board piece tick) 100))
 
+(defn line-full?
+  [line]
+  (not-every? keyword? line))
+
 (defn remove-lines
   [lines]
-  (let [filtered-lines (filter (fn [x] (not-every? keyword? x)) lines)
+  (let [filtered-lines (filter line-full? lines)
         difference (- (count lines) (count filtered-lines))]
     (into (vec (repeat difference (create-line))) filtered-lines)))
 
@@ -198,12 +202,12 @@
     (let [last-key (consume-keypress)]
       (cond
         (collides? board piece) (game-over ctx)
-        (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick ctx board (rotate piece) (tick))
-        (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) (tick))
-        (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) (tick))
-        :else (if (collides? board (move-down piece))
-                (next-tick ctx (remove-lines (overlay board piece)) (get-next-piece) (tick))
-                (next-tick ctx board (move-down piece) (tick)))))))
+        (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick ctx board (rotate piece) previous-tick)
+        (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) previous-tick)
+        (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) previous-tick)
+        (< (- (tick) previous-tick) 400) (next-tick ctx board piece previous-tick)
+        (collides? board (move-down piece)) (next-tick ctx (remove-lines (overlay board piece)) (get-next-piece) (tick))
+        :else  (next-tick ctx board (move-down piece) (tick))))))
     
 
 (defn ^:export init
