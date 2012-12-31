@@ -146,7 +146,7 @@
   (let [[px py shape] piece]
     [px py (next shape)]))
 
-(defn tick
+(defn get-tick
   []
   (.getTime (js/Date.)))
 
@@ -186,48 +186,71 @@
 (declare main-loop)
 
 (defn game-over
-  [ctx]
-  (let [gameover (.getElementById js/document "gameover")]
-    (set! (.-visibility (.-style gameover)) "visible")))
+  [state]
+  (let [gameover (.getElementById js/document "gameover")
+        scoreline (.getElementById js/document "score")]
+    (set! (.-visibility (.-style gameover)) "visible")
+    (set! (.-innerHTML scoreline) (str (state :score) " lines"))))
 
 (defn line-full?
   [line]
-  (not-every? keyword? line))
+  (every? keyword? line))
 
 (defn remove-lines
-  [lines]
-  (let [filtered-lines (filter line-full? lines)
-        difference (- (count lines) (count filtered-lines))]
+  [board]
+  (let [filtered-lines (filter (comp not line-full?) board)
+        difference (- (count board) (count filtered-lines))]
     (into (vec (repeat difference (create-line))) filtered-lines)))
 
+(defn account-lines
+  [board]
+  (count (filter line-full? board)))
+
 (defn next-tick
-  [ctx board piece tick]
-  (js/setTimeout #(main-loop ctx board piece tick) 100))
+  [state]
+  (js/setTimeout #(main-loop state) 100))
 
 
 (defn main-loop
-  ([ctx board] (main-loop ctx board (get-next-piece) (tick)))
-  ([ctx board piece previous-tick]
-    (paint-board ctx (overlay board piece))
-    (let [last-key (consume-keypress)]
-      (cond
-        (collides? board piece) (game-over ctx)
-        (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick ctx board (rotate piece) previous-tick)
-        (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) previous-tick)
-        (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) previous-tick)
-        (= last-key 32) (next-tick ctx board (hard-drop board piece) previous-tick)
-        (< (- (tick) previous-tick) 400) (next-tick ctx board piece previous-tick)
-        (collides? board (move-down piece)) (next-tick ctx (remove-lines (overlay board piece)) (get-next-piece) (tick))
-        :else  (next-tick ctx board (move-down piece) (tick))))))
+  [state]
+    (let [{:keys [ctx board ticklength piece score tick]} state
+          last-key (consume-keypress)]
+      (if (collides? board piece)
+        (game-over state)
+        (do
+          (paint-board (:ctx state) (overlay (:board state) (:piece state)))
+          (cond
+            (collides? board piece) (game-over state)
+            (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick (assoc state :piece (rotate piece)))
+            (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick (assoc state :piece (move-right piece)))
+            (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick (assoc state :piece (move-left piece)))
+            (= last-key 32) (next-tick (assoc state :piece (hard-drop board piece)))
+            (< (- (get-tick) tick) 400) (next-tick state)
+            (collides? board (move-down piece)) (next-tick (assoc state :score (+ score (account-lines board))
+                                                                        :board (remove-lines (overlay board piece))
+                                                                        :piece (get-next-piece)
+                                                                        :tick (get-tick)))
+            :else  (next-tick (assoc state :piece (move-down piece)
+                                           :tick (get-tick))))))))
+
+(defn create-game-state
+  [ctx]
+  { :ctx ctx
+    :board (create-board)
+    :ticklenght 400
+    :piece (get-next-piece)
+    :score  0
+    :tick (get-tick)})
     
 (defn ^:export start-game
   []
+  (consume-keypress)
   (let [canvas (.getElementById js/document "canvas")
         ctx (.getContext canvas "2d")
         board (create-board)
         gameover (.getElementById js/document "gameover")]
     (set! (.-visibility (.-style gameover)) "hidden")
-    (main-loop ctx board)))
+    (main-loop (create-game-state ctx))))
 
 (defn ^:export init
   []
