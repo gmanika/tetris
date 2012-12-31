@@ -11,3 +11,5 @@ pom.xml
 /.lein-cljsbuild*
 /.lein*
 out
+/resources/public/main.js
+
