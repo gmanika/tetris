@@ -95,11 +95,12 @@
                    (< -1 fy 20)
                    (nil? ((board fy) fx))))) shape))))
              
-(defn rotate-shape
-  [shape]
-  (mapv (fn [s]
-         (let [[x y color] s]
-           [y x color])) shape))
+(defn rotate-piece
+  [piece]
+  (let [[px py shape] piece]
+    [px py (mapv (fn [s]
+           (let [[x y color] s]
+             [y x color])) shape)]))
 
 (defn tick
   []
@@ -125,8 +126,16 @@
 
 (defn next-tick
   [ctx board piece tick]
-  (js/setTimeout #(main-loop ctx board piece tick) 100))
+  (js/setTimeout #(main-loop ctx board piece tick) 300))
 
+(defn create-board
+  []
+  (vec (take 20 (repeat (vec (take 10 (repeat nil)))))))
+
+(defn game-over
+  [ctx]
+  (js/alert "GAME OVER")
+  (main-loop ctx (create-board)))
 
 (defn main-loop
   ([ctx board] (main-loop ctx board (get-next-piece) (tick)))
@@ -134,16 +143,14 @@
     (paint-board ctx (overlay board piece))
     (let [last-key (consume-keypress)]
       (cond
+        (collides? board piece) (game-over ctx)
+        (and (= last-key 38) (not (collides? board (rotate-piece piece)))) (next-tick ctx board (rotate-piece piece) (tick))
         (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) (tick))
         (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) (tick))
         :else (if (collides? board (move-down piece))
                 (next-tick ctx (overlay board piece) (get-next-piece) (tick))
-                (next-tick ctx board (move-down piece) (tick)))))
+                (next-tick ctx board (move-down piece) (tick)))))))
     
-
-(defn create-board
-  []
-  (vec (take 20 (repeat (vec (take 10 (repeat nil)))))))
 
 (defn ^:export init
   []
