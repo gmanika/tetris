@@ -1,5 +1,7 @@
 (ns eviltetris.core
-   (:require [clojure.browser.repl :as repl]))
+   (:require [clojure.browser.repl :as repl]
+             [goog.events :as events]
+             [goog.events.KeyHandler :as key-handler]))
 
 (repl/connect "http://localhost:9000/repl")
 
@@ -29,6 +31,21 @@
     [ [0 1 :magenta] [1 1 :magenta] [1 0 :magenta] [2 1 :magenta] ]
     ])
 
+
+(def *last-key-pressed* nil)
+
+(defn keypress
+  [event]
+  (let [key (.-keyCode event)]
+    (set! *last-key-pressed* key))
+  (.preventDefault event)
+  (.stopPropagation event))
+
+(defn consume-keypress
+  []
+  (let [lastkey *last-key-pressed*]
+    (set! *last-key-pressed* nil)
+    lastkey))
 
 (defn fill-rect
   [ctx x y sx sy color]
@@ -92,6 +109,14 @@
   [piece]
   (assoc piece 1 (inc (second piece))))
 
+(defn move-left
+  [piece]
+  (assoc piece 0 (dec (first piece))))
+
+(defn move-right
+  [piece]
+  (assoc piece 0 (inc (first piece))))
+
 (defn get-next-piece
   []
   [3 0 (rand-nth shapes)])
@@ -100,20 +125,21 @@
 
 (defn next-tick
   [ctx board piece tick]
-  (js/setTimeout #(main-loop ctx board (move-down piece) tick) 250))
+  (js/setTimeout #(main-loop ctx board piece tick) 100))
 
 
 (defn main-loop
   ([ctx board] (main-loop ctx board (get-next-piece) (tick)))
   ([ctx board piece previous-tick]
     (paint-board ctx (overlay board piece))
-
-    (if (collides? board (move-down piece))
-      (next-tick ctx (overlay board piece) (get-next-piece) (tick))
-      (next-tick ctx board (move-down piece) (tick)))))
+    (let [last-key (consume-keypress)]
+      (cond
+        (= last-key 37) (next-tick ctx board (move-left piece) (tick))
+        (= last-key 39) (next-tick ctx board (move-right piece) (tick))
+        :else (if (collides? board (move-down piece))
+                (next-tick ctx (overlay board piece) (get-next-piece) (tick))
+                (next-tick ctx board (move-down piece) (tick)))))))
     
-;(js/setTimeout #(main-loop ctx (test-pattern board)) 100)))
-
 
 (defn create-board
   []
@@ -125,5 +151,7 @@
   []
   (let [canvas (.getElementById js/document "canvas")
         ctx (.getContext canvas "2d")
-        board (create-board)]
+        board (create-board)
+        handler (goog.events.KeyHandler. js/document true)]
+    (events/listen handler "key" keypress)
     (main-loop ctx board)))

@@ -27438,14 +27438,290 @@ clojure.browser.repl.connect = function connect(repl_server_url) {
     return iframe.style.display = "none"
   })
 };
+goog.provide("goog.events.KeyCodes");
+goog.require("goog.userAgent");
+goog.events.KeyCodes = {MAC_ENTER:3, BACKSPACE:8, TAB:9, NUM_CENTER:12, ENTER:13, SHIFT:16, CTRL:17, ALT:18, PAUSE:19, CAPS_LOCK:20, ESC:27, SPACE:32, PAGE_UP:33, PAGE_DOWN:34, END:35, HOME:36, LEFT:37, UP:38, RIGHT:39, DOWN:40, PRINT_SCREEN:44, INSERT:45, DELETE:46, ZERO:48, ONE:49, TWO:50, THREE:51, FOUR:52, FIVE:53, SIX:54, SEVEN:55, EIGHT:56, NINE:57, FF_SEMICOLON:59, QUESTION_MARK:63, A:65, B:66, C:67, D:68, E:69, F:70, G:71, H:72, I:73, J:74, K:75, L:76, M:77, N:78, O:79, P:80, Q:81, R:82, 
+S:83, T:84, U:85, V:86, W:87, X:88, Y:89, Z:90, META:91, WIN_KEY_RIGHT:92, CONTEXT_MENU:93, NUM_ZERO:96, NUM_ONE:97, NUM_TWO:98, NUM_THREE:99, NUM_FOUR:100, NUM_FIVE:101, NUM_SIX:102, NUM_SEVEN:103, NUM_EIGHT:104, NUM_NINE:105, NUM_MULTIPLY:106, NUM_PLUS:107, NUM_MINUS:109, NUM_PERIOD:110, NUM_DIVISION:111, F1:112, F2:113, F3:114, F4:115, F5:116, F6:117, F7:118, F8:119, F9:120, F10:121, F11:122, F12:123, NUMLOCK:144, SCROLL_LOCK:145, FIRST_MEDIA_KEY:166, LAST_MEDIA_KEY:183, SEMICOLON:186, DASH:189, 
+EQUALS:187, COMMA:188, PERIOD:190, SLASH:191, APOSTROPHE:192, TILDE:192, SINGLE_QUOTE:222, OPEN_SQUARE_BRACKET:219, BACKSLASH:220, CLOSE_SQUARE_BRACKET:221, WIN_KEY:224, MAC_FF_META:224, WIN_IME:229, PHANTOM:255};
+goog.events.KeyCodes.isTextModifyingKeyEvent = function(e) {
+  if(e.altKey && !e.ctrlKey || e.metaKey || e.keyCode >= goog.events.KeyCodes.F1 && e.keyCode <= goog.events.KeyCodes.F12) {
+    return false
+  }
+  switch(e.keyCode) {
+    case goog.events.KeyCodes.ALT:
+    ;
+    case goog.events.KeyCodes.CAPS_LOCK:
+    ;
+    case goog.events.KeyCodes.CONTEXT_MENU:
+    ;
+    case goog.events.KeyCodes.CTRL:
+    ;
+    case goog.events.KeyCodes.DOWN:
+    ;
+    case goog.events.KeyCodes.END:
+    ;
+    case goog.events.KeyCodes.ESC:
+    ;
+    case goog.events.KeyCodes.HOME:
+    ;
+    case goog.events.KeyCodes.INSERT:
+    ;
+    case goog.events.KeyCodes.LEFT:
+    ;
+    case goog.events.KeyCodes.MAC_FF_META:
+    ;
+    case goog.events.KeyCodes.META:
+    ;
+    case goog.events.KeyCodes.NUMLOCK:
+    ;
+    case goog.events.KeyCodes.NUM_CENTER:
+    ;
+    case goog.events.KeyCodes.PAGE_DOWN:
+    ;
+    case goog.events.KeyCodes.PAGE_UP:
+    ;
+    case goog.events.KeyCodes.PAUSE:
+    ;
+    case goog.events.KeyCodes.PHANTOM:
+    ;
+    case goog.events.KeyCodes.PRINT_SCREEN:
+    ;
+    case goog.events.KeyCodes.RIGHT:
+    ;
+    case goog.events.KeyCodes.SCROLL_LOCK:
+    ;
+    case goog.events.KeyCodes.SHIFT:
+    ;
+    case goog.events.KeyCodes.UP:
+    ;
+    case goog.events.KeyCodes.WIN_KEY:
+    ;
+    case goog.events.KeyCodes.WIN_KEY_RIGHT:
+      return false;
+    default:
+      return e.keyCode < goog.events.KeyCodes.FIRST_MEDIA_KEY || e.keyCode > goog.events.KeyCodes.LAST_MEDIA_KEY
+  }
+};
+goog.events.KeyCodes.firesKeyPressEvent = function(keyCode, opt_heldKeyCode, opt_shiftKey, opt_ctrlKey, opt_altKey) {
+  if(!goog.userAgent.IE && !(goog.userAgent.WEBKIT && goog.userAgent.isVersion("525"))) {
+    return true
+  }
+  if(goog.userAgent.MAC && opt_altKey) {
+    return goog.events.KeyCodes.isCharacterKey(keyCode)
+  }
+  if(opt_altKey && !opt_ctrlKey) {
+    return false
+  }
+  if(!opt_shiftKey && (opt_heldKeyCode == goog.events.KeyCodes.CTRL || opt_heldKeyCode == goog.events.KeyCodes.ALT)) {
+    return false
+  }
+  if(goog.userAgent.IE && opt_ctrlKey && opt_heldKeyCode == keyCode) {
+    return false
+  }
+  switch(keyCode) {
+    case goog.events.KeyCodes.ENTER:
+      return!(goog.userAgent.IE && goog.userAgent.isDocumentMode(9));
+    case goog.events.KeyCodes.ESC:
+      return!goog.userAgent.WEBKIT
+  }
+  return goog.events.KeyCodes.isCharacterKey(keyCode)
+};
+goog.events.KeyCodes.isCharacterKey = function(keyCode) {
+  if(keyCode >= goog.events.KeyCodes.ZERO && keyCode <= goog.events.KeyCodes.NINE) {
+    return true
+  }
+  if(keyCode >= goog.events.KeyCodes.NUM_ZERO && keyCode <= goog.events.KeyCodes.NUM_MULTIPLY) {
+    return true
+  }
+  if(keyCode >= goog.events.KeyCodes.A && keyCode <= goog.events.KeyCodes.Z) {
+    return true
+  }
+  if(goog.userAgent.WEBKIT && keyCode == 0) {
+    return true
+  }
+  switch(keyCode) {
+    case goog.events.KeyCodes.SPACE:
+    ;
+    case goog.events.KeyCodes.QUESTION_MARK:
+    ;
+    case goog.events.KeyCodes.NUM_PLUS:
+    ;
+    case goog.events.KeyCodes.NUM_MINUS:
+    ;
+    case goog.events.KeyCodes.NUM_PERIOD:
+    ;
+    case goog.events.KeyCodes.NUM_DIVISION:
+    ;
+    case goog.events.KeyCodes.SEMICOLON:
+    ;
+    case goog.events.KeyCodes.FF_SEMICOLON:
+    ;
+    case goog.events.KeyCodes.DASH:
+    ;
+    case goog.events.KeyCodes.EQUALS:
+    ;
+    case goog.events.KeyCodes.COMMA:
+    ;
+    case goog.events.KeyCodes.PERIOD:
+    ;
+    case goog.events.KeyCodes.SLASH:
+    ;
+    case goog.events.KeyCodes.APOSTROPHE:
+    ;
+    case goog.events.KeyCodes.SINGLE_QUOTE:
+    ;
+    case goog.events.KeyCodes.OPEN_SQUARE_BRACKET:
+    ;
+    case goog.events.KeyCodes.BACKSLASH:
+    ;
+    case goog.events.KeyCodes.CLOSE_SQUARE_BRACKET:
+      return true;
+    default:
+      return false
+  }
+};
+goog.provide("goog.events.KeyEvent");
+goog.provide("goog.events.KeyHandler");
+goog.provide("goog.events.KeyHandler.EventType");
+goog.require("goog.events");
+goog.require("goog.events.BrowserEvent");
+goog.require("goog.events.EventTarget");
+goog.require("goog.events.EventType");
+goog.require("goog.events.KeyCodes");
+goog.require("goog.userAgent");
+goog.events.KeyHandler = function(opt_element, opt_capture) {
+  goog.events.EventTarget.call(this);
+  if(opt_element) {
+    this.attach(opt_element, opt_capture)
+  }
+};
+goog.inherits(goog.events.KeyHandler, goog.events.EventTarget);
+goog.events.KeyHandler.prototype.element_ = null;
+goog.events.KeyHandler.prototype.keyPressKey_ = null;
+goog.events.KeyHandler.prototype.keyDownKey_ = null;
+goog.events.KeyHandler.prototype.keyUpKey_ = null;
+goog.events.KeyHandler.prototype.lastKey_ = -1;
+goog.events.KeyHandler.prototype.keyCode_ = -1;
+goog.events.KeyHandler.EventType = {KEY:"key"};
+goog.events.KeyHandler.safariKey_ = {3:goog.events.KeyCodes.ENTER, 12:goog.events.KeyCodes.NUMLOCK, 63232:goog.events.KeyCodes.UP, 63233:goog.events.KeyCodes.DOWN, 63234:goog.events.KeyCodes.LEFT, 63235:goog.events.KeyCodes.RIGHT, 63236:goog.events.KeyCodes.F1, 63237:goog.events.KeyCodes.F2, 63238:goog.events.KeyCodes.F3, 63239:goog.events.KeyCodes.F4, 63240:goog.events.KeyCodes.F5, 63241:goog.events.KeyCodes.F6, 63242:goog.events.KeyCodes.F7, 63243:goog.events.KeyCodes.F8, 63244:goog.events.KeyCodes.F9, 
+63245:goog.events.KeyCodes.F10, 63246:goog.events.KeyCodes.F11, 63247:goog.events.KeyCodes.F12, 63248:goog.events.KeyCodes.PRINT_SCREEN, 63272:goog.events.KeyCodes.DELETE, 63273:goog.events.KeyCodes.HOME, 63275:goog.events.KeyCodes.END, 63276:goog.events.KeyCodes.PAGE_UP, 63277:goog.events.KeyCodes.PAGE_DOWN, 63289:goog.events.KeyCodes.NUMLOCK, 63302:goog.events.KeyCodes.INSERT};
+goog.events.KeyHandler.keyIdentifier_ = {"Up":goog.events.KeyCodes.UP, "Down":goog.events.KeyCodes.DOWN, "Left":goog.events.KeyCodes.LEFT, "Right":goog.events.KeyCodes.RIGHT, "Enter":goog.events.KeyCodes.ENTER, "F1":goog.events.KeyCodes.F1, "F2":goog.events.KeyCodes.F2, "F3":goog.events.KeyCodes.F3, "F4":goog.events.KeyCodes.F4, "F5":goog.events.KeyCodes.F5, "F6":goog.events.KeyCodes.F6, "F7":goog.events.KeyCodes.F7, "F8":goog.events.KeyCodes.F8, "F9":goog.events.KeyCodes.F9, "F10":goog.events.KeyCodes.F10, 
+"F11":goog.events.KeyCodes.F11, "F12":goog.events.KeyCodes.F12, "U+007F":goog.events.KeyCodes.DELETE, "Home":goog.events.KeyCodes.HOME, "End":goog.events.KeyCodes.END, "PageUp":goog.events.KeyCodes.PAGE_UP, "PageDown":goog.events.KeyCodes.PAGE_DOWN, "Insert":goog.events.KeyCodes.INSERT};
+goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_ = {61:187, 59:186};
+goog.events.KeyHandler.USES_KEYDOWN_ = goog.userAgent.IE || goog.userAgent.WEBKIT && goog.userAgent.isVersion("525");
+goog.events.KeyHandler.prototype.handleKeyDown_ = function(e) {
+  if(goog.userAgent.WEBKIT && (this.lastKey_ == goog.events.KeyCodes.CTRL && !e.ctrlKey || this.lastKey_ == goog.events.KeyCodes.ALT && !e.altKey)) {
+    this.lastKey_ = -1;
+    this.keyCode_ = -1
+  }
+  if(goog.events.KeyHandler.USES_KEYDOWN_ && !goog.events.KeyCodes.firesKeyPressEvent(e.keyCode, this.lastKey_, e.shiftKey, e.ctrlKey, e.altKey)) {
+    this.handleEvent(e)
+  }else {
+    if(goog.userAgent.GECKO && e.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_) {
+      this.keyCode_ = goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_[e.keyCode]
+    }else {
+      this.keyCode_ = e.keyCode
+    }
+  }
+};
+goog.events.KeyHandler.prototype.handleKeyup_ = function(e) {
+  this.lastKey_ = -1;
+  this.keyCode_ = -1
+};
+goog.events.KeyHandler.prototype.handleEvent = function(e) {
+  var be = e.getBrowserEvent();
+  var keyCode, charCode;
+  if(goog.userAgent.IE && e.type == goog.events.EventType.KEYPRESS) {
+    keyCode = this.keyCode_;
+    charCode = keyCode != goog.events.KeyCodes.ENTER && keyCode != goog.events.KeyCodes.ESC ? be.keyCode : 0
+  }else {
+    if(goog.userAgent.WEBKIT && e.type == goog.events.EventType.KEYPRESS) {
+      keyCode = this.keyCode_;
+      charCode = be.charCode >= 0 && be.charCode < 63232 && goog.events.KeyCodes.isCharacterKey(keyCode) ? be.charCode : 0
+    }else {
+      if(goog.userAgent.OPERA) {
+        keyCode = this.keyCode_;
+        charCode = goog.events.KeyCodes.isCharacterKey(keyCode) ? be.keyCode : 0
+      }else {
+        keyCode = be.keyCode || this.keyCode_;
+        charCode = be.charCode || 0;
+        if(goog.userAgent.MAC && charCode == goog.events.KeyCodes.QUESTION_MARK && !keyCode) {
+          keyCode = goog.events.KeyCodes.SLASH
+        }
+      }
+    }
+  }
+  var key = keyCode;
+  var keyIdentifier = be.keyIdentifier;
+  if(keyCode) {
+    if(keyCode >= 63232 && keyCode in goog.events.KeyHandler.safariKey_) {
+      key = goog.events.KeyHandler.safariKey_[keyCode]
+    }else {
+      if(keyCode == 25 && e.shiftKey) {
+        key = 9
+      }
+    }
+  }else {
+    if(keyIdentifier && keyIdentifier in goog.events.KeyHandler.keyIdentifier_) {
+      key = goog.events.KeyHandler.keyIdentifier_[keyIdentifier]
+    }
+  }
+  var repeat = key == this.lastKey_;
+  this.lastKey_ = key;
+  var event = new goog.events.KeyEvent(key, charCode, repeat, be);
+  try {
+    this.dispatchEvent(event)
+  }finally {
+    event.dispose()
+  }
+};
+goog.events.KeyHandler.prototype.getElement = function() {
+  return this.element_
+};
+goog.events.KeyHandler.prototype.attach = function(element, opt_capture) {
+  if(this.keyUpKey_) {
+    this.detach()
+  }
+  this.element_ = element;
+  this.keyPressKey_ = goog.events.listen(this.element_, goog.events.EventType.KEYPRESS, this, opt_capture);
+  this.keyDownKey_ = goog.events.listen(this.element_, goog.events.EventType.KEYDOWN, this.handleKeyDown_, opt_capture, this);
+  this.keyUpKey_ = goog.events.listen(this.element_, goog.events.EventType.KEYUP, this.handleKeyup_, opt_capture, this)
+};
+goog.events.KeyHandler.prototype.detach = function() {
+  if(this.keyPressKey_) {
+    goog.events.unlistenByKey(this.keyPressKey_);
+    goog.events.unlistenByKey(this.keyDownKey_);
+    goog.events.unlistenByKey(this.keyUpKey_);
+    this.keyPressKey_ = null;
+    this.keyDownKey_ = null;
+    this.keyUpKey_ = null
+  }
+  this.element_ = null;
+  this.lastKey_ = -1;
+  this.keyCode_ = -1
+};
+goog.events.KeyHandler.prototype.disposeInternal = function() {
+  goog.events.KeyHandler.superClass_.disposeInternal.call(this);
+  this.detach()
+};
+goog.events.KeyEvent = function(keyCode, charCode, repeat, browserEvent) {
+  goog.events.BrowserEvent.call(this, browserEvent);
+  this.type = goog.events.KeyHandler.EventType.KEY;
+  this.keyCode = keyCode;
+  this.charCode = charCode;
+  this.repeat = repeat
+};
+goog.inherits(goog.events.KeyEvent, goog.events.BrowserEvent);
 goog.provide("eviltetris.core");
 goog.require("cljs.core");
+goog.require("goog.events.KeyHandler");
+goog.require("goog.events");
 goog.require("clojure.browser.repl");
 clojure.browser.repl.connect.call(null, "http://localhost:9000/repl");
 eviltetris.core.load_image = function load_image(file) {
-  var image__2366386 = new Image;
-  image__2366386.src = [cljs.core.str("images/"), cljs.core.str(file)].join("");
-  return image__2366386
+  var image__105525 = new Image;
+  image__105525.src = [cljs.core.str("images/"), cljs.core.str(file)].join("");
+  return image__105525
 };
 eviltetris.core.images = cljs.core.ObjMap.fromObject(["\ufdd0'blue", "\ufdd0'cyan", "\ufdd0'green", "\ufdd0'magenta", "\ufdd0'orange", "\ufdd0'red", "\ufdd0'yellow"], {"\ufdd0'blue":eviltetris.core.load_image.call(null, "blue.png"), "\ufdd0'cyan":eviltetris.core.load_image.call(null, "cyan.png"), "\ufdd0'green":eviltetris.core.load_image.call(null, "green.png"), "\ufdd0'magenta":eviltetris.core.load_image.call(null, "magenta.png"), "\ufdd0'orange":eviltetris.core.load_image.call(null, "orange.png"), 
 "\ufdd0'red":eviltetris.core.load_image.call(null, "red.png"), "\ufdd0'yellow":eviltetris.core.load_image.call(null, "yellow.png")});
@@ -27454,6 +27730,18 @@ eviltetris.core.shapes = cljs.core.PersistentVector.fromArray([cljs.core.Persist
 0, "\ufdd0'yellow"], true), cljs.core.PersistentVector.fromArray([0, 1, "\ufdd0'yellow"], true), cljs.core.PersistentVector.fromArray([1, 0, "\ufdd0'yellow"], true), cljs.core.PersistentVector.fromArray([1, 1, "\ufdd0'yellow"], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1, "\ufdd0'green"], true), cljs.core.PersistentVector.fromArray([1, 1, "\ufdd0'green"], true), cljs.core.PersistentVector.fromArray([1, 0, "\ufdd0'green"], true), cljs.core.PersistentVector.fromArray([2, 
 0, "\ufdd0'green"], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 0, "\ufdd0'red"], true), cljs.core.PersistentVector.fromArray([1, 0, "\ufdd0'red"], true), cljs.core.PersistentVector.fromArray([1, 1, "\ufdd0'red"], true), cljs.core.PersistentVector.fromArray([2, 1, "\ufdd0'red"], true)], true), cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1, "\ufdd0'magenta"], true), cljs.core.PersistentVector.fromArray([1, 1, "\ufdd0'magenta"], 
 true), cljs.core.PersistentVector.fromArray([1, 0, "\ufdd0'magenta"], true), cljs.core.PersistentVector.fromArray([2, 1, "\ufdd0'magenta"], true)], true)], true);
+eviltetris.core._STAR_last_key_pressed_STAR_ = null;
+eviltetris.core.keypress = function keypress(event) {
+  var key__105527 = event.keyCode;
+  eviltetris.core._STAR_last_key_pressed_STAR_ = key__105527;
+  event.preventDefault();
+  return event.stopPropagation()
+};
+eviltetris.core.consume_keypress = function consume_keypress() {
+  var lastkey__105529 = eviltetris.core._STAR_last_key_pressed_STAR_;
+  eviltetris.core._STAR_last_key_pressed_STAR_ = null;
+  return lastkey__105529
+};
 eviltetris.core.fill_rect = function fill_rect(ctx, x, y, sx, sy, color) {
   ctx.fillStyle = color;
   return ctx.fillRect(x, y, sx, sy)
@@ -27464,44 +27752,44 @@ eviltetris.core.paint_block = function paint_block(ctx, x, y, color) {
 eviltetris.core.paint_board = function paint_board(ctx, board) {
   eviltetris.core.fill_rect.call(null, ctx, 0, 0, 320, 480, "black");
   return cljs.core.dorun.call(null, function() {
-    var iter__2464__auto____2366444 = function iter__2366416(s__2366417) {
+    var iter__2464__auto____105587 = function iter__105559(s__105560) {
       return new cljs.core.LazySeq(null, false, function() {
-        var s__2366417__2366432 = s__2366417;
+        var s__105560__105575 = s__105560;
         while(true) {
-          if(cljs.core.seq.call(null, s__2366417__2366432)) {
-            var x__2366433 = cljs.core.first.call(null, s__2366417__2366432);
-            var iterys__2462__auto____2366442 = function(s__2366417__2366432, x__2366433) {
-              return function iter__2366418(s__2366419) {
-                return new cljs.core.LazySeq(null, false, function(s__2366417__2366432, x__2366433) {
+          if(cljs.core.seq.call(null, s__105560__105575)) {
+            var x__105576 = cljs.core.first.call(null, s__105560__105575);
+            var iterys__2462__auto____105585 = function(s__105560__105575, x__105576) {
+              return function iter__105561(s__105562) {
+                return new cljs.core.LazySeq(null, false, function(s__105560__105575, x__105576) {
                   return function() {
-                    var s__2366419__2366438 = s__2366419;
+                    var s__105562__105581 = s__105562;
                     while(true) {
-                      if(cljs.core.seq.call(null, s__2366419__2366438)) {
-                        var y__2366439 = cljs.core.first.call(null, s__2366419__2366438);
+                      if(cljs.core.seq.call(null, s__105562__105581)) {
+                        var y__105582 = cljs.core.first.call(null, s__105562__105581);
                         return cljs.core.cons.call(null, function() {
-                          var temp__3974__auto____2366440 = board.call(null, y__2366439).call(null, x__2366433);
-                          if(cljs.core.truth_(temp__3974__auto____2366440)) {
-                            var color__2366441 = temp__3974__auto____2366440;
-                            return eviltetris.core.paint_block.call(null, ctx, x__2366433, y__2366439, color__2366441)
+                          var temp__3974__auto____105583 = board.call(null, y__105582).call(null, x__105576);
+                          if(cljs.core.truth_(temp__3974__auto____105583)) {
+                            var color__105584 = temp__3974__auto____105583;
+                            return eviltetris.core.paint_block.call(null, ctx, x__105576, y__105582, color__105584)
                           }else {
                             return null
                           }
-                        }(), iter__2366418.call(null, cljs.core.rest.call(null, s__2366419__2366438)))
+                        }(), iter__105561.call(null, cljs.core.rest.call(null, s__105562__105581)))
                       }else {
                         return null
                       }
                       break
                     }
                   }
-                }(s__2366417__2366432, x__2366433), null)
+                }(s__105560__105575, x__105576), null)
               }
-            }(s__2366417__2366432, x__2366433);
-            var fs__2463__auto____2366443 = cljs.core.seq.call(null, iterys__2462__auto____2366442.call(null, cljs.core.range.call(null, 20)));
-            if(fs__2463__auto____2366443) {
-              return cljs.core.concat.call(null, fs__2463__auto____2366443, iter__2366416.call(null, cljs.core.rest.call(null, s__2366417__2366432)))
+            }(s__105560__105575, x__105576);
+            var fs__2463__auto____105586 = cljs.core.seq.call(null, iterys__2462__auto____105585.call(null, cljs.core.range.call(null, 20)));
+            if(fs__2463__auto____105586) {
+              return cljs.core.concat.call(null, fs__2463__auto____105586, iter__105559.call(null, cljs.core.rest.call(null, s__105560__105575)))
             }else {
-              var G__2366445 = cljs.core.rest.call(null, s__2366417__2366432);
-              s__2366417__2366432 = G__2366445;
+              var G__105588 = cljs.core.rest.call(null, s__105560__105575);
+              s__105560__105575 = G__105588;
               continue
             }
           }else {
@@ -27511,7 +27799,7 @@ eviltetris.core.paint_board = function paint_board(ctx, board) {
         }
       }, null)
     };
-    return iter__2464__auto____2366444.call(null, cljs.core.range.call(null, 10))
+    return iter__2464__auto____105587.call(null, cljs.core.range.call(null, 10))
   }())
 };
 eviltetris.core.patch_board = function patch_board(board, color, x, y) {
@@ -27521,66 +27809,66 @@ eviltetris.core.test_pattern = function test_pattern(board) {
   return eviltetris.core.patch_board.call(null, board, cljs.core.rand_nth.call(null, cljs.core.keys.call(null, eviltetris.core.images)), cljs.core.rand_int.call(null, 10), cljs.core.rand_int.call(null, 20))
 };
 eviltetris.core.overlay = function overlay(board, piece) {
-  var vec__2366456__2366457 = piece;
-  var px__2366458 = cljs.core.nth.call(null, vec__2366456__2366457, 0, null);
-  var py__2366459 = cljs.core.nth.call(null, vec__2366456__2366457, 1, null);
-  var shape__2366460 = cljs.core.nth.call(null, vec__2366456__2366457, 2, null);
+  var vec__105599__105600 = piece;
+  var px__105601 = cljs.core.nth.call(null, vec__105599__105600, 0, null);
+  var py__105602 = cljs.core.nth.call(null, vec__105599__105600, 1, null);
+  var shape__105603 = cljs.core.nth.call(null, vec__105599__105600, 2, null);
   return cljs.core.apply.call(null, cljs.core.comp, cljs.core.map.call(null, function(dot) {
-    var vec__2366461__2366462 = dot;
-    var dx__2366463 = cljs.core.nth.call(null, vec__2366461__2366462, 0, null);
-    var dy__2366464 = cljs.core.nth.call(null, vec__2366461__2366462, 1, null);
-    var dcolor__2366465 = cljs.core.nth.call(null, vec__2366461__2366462, 2, null);
+    var vec__105604__105605 = dot;
+    var dx__105606 = cljs.core.nth.call(null, vec__105604__105605, 0, null);
+    var dy__105607 = cljs.core.nth.call(null, vec__105604__105605, 1, null);
+    var dcolor__105608 = cljs.core.nth.call(null, vec__105604__105605, 2, null);
     return function(board) {
-      return eviltetris.core.patch_board.call(null, board, dcolor__2366465, px__2366458 + dx__2366463, py__2366459 + dy__2366464)
+      return eviltetris.core.patch_board.call(null, board, dcolor__105608, px__105601 + dx__105606, py__105602 + dy__105607)
     }
-  }, shape__2366460)).call(null, board)
+  }, shape__105603)).call(null, board)
 };
 eviltetris.core.collides_QMARK_ = function collides_QMARK_(board, piece) {
-  var vec__2366482__2366483 = piece;
-  var px__2366484 = cljs.core.nth.call(null, vec__2366482__2366483, 0, null);
-  var py__2366485 = cljs.core.nth.call(null, vec__2366482__2366483, 1, null);
-  var shape__2366486 = cljs.core.nth.call(null, vec__2366482__2366483, 2, null);
+  var vec__105625__105626 = piece;
+  var px__105627 = cljs.core.nth.call(null, vec__105625__105626, 0, null);
+  var py__105628 = cljs.core.nth.call(null, vec__105625__105626, 1, null);
+  var shape__105629 = cljs.core.nth.call(null, vec__105625__105626, 2, null);
   return cljs.core.some.call(null, cljs.core.false_QMARK_, cljs.core.map.call(null, function(dot) {
-    var vec__2366487__2366488 = dot;
-    var dx__2366489 = cljs.core.nth.call(null, vec__2366487__2366488, 0, null);
-    var dy__2366490 = cljs.core.nth.call(null, vec__2366487__2366488, 1, null);
-    var ___2366491 = cljs.core.nth.call(null, vec__2366487__2366488, 2, null);
-    var fx__2366492 = dx__2366489 + px__2366484;
-    var fy__2366493 = dy__2366490 + py__2366485;
-    var and__3822__auto____2366495 = function() {
-      var and__3822__auto____2366494 = 0 < fx__2366492;
-      if(and__3822__auto____2366494) {
-        return fx__2366492 < 10
+    var vec__105630__105631 = dot;
+    var dx__105632 = cljs.core.nth.call(null, vec__105630__105631, 0, null);
+    var dy__105633 = cljs.core.nth.call(null, vec__105630__105631, 1, null);
+    var ___105634 = cljs.core.nth.call(null, vec__105630__105631, 2, null);
+    var fx__105635 = dx__105632 + px__105627;
+    var fy__105636 = dy__105633 + py__105628;
+    var and__3822__auto____105638 = function() {
+      var and__3822__auto____105637 = 0 < fx__105635;
+      if(and__3822__auto____105637) {
+        return fx__105635 < 10
       }else {
-        return and__3822__auto____2366494
+        return and__3822__auto____105637
       }
     }();
-    if(cljs.core.truth_(and__3822__auto____2366495)) {
-      var and__3822__auto____2366497 = function() {
-        var and__3822__auto____2366496 = 0 < fy__2366493;
-        if(and__3822__auto____2366496) {
-          return fy__2366493 < 20
+    if(cljs.core.truth_(and__3822__auto____105638)) {
+      var and__3822__auto____105640 = function() {
+        var and__3822__auto____105639 = 0 < fy__105636;
+        if(and__3822__auto____105639) {
+          return fy__105636 < 20
         }else {
-          return and__3822__auto____2366496
+          return and__3822__auto____105639
         }
       }();
-      if(cljs.core.truth_(and__3822__auto____2366497)) {
-        return board.call(null, fy__2366493).call(null, fx__2366492) == null
+      if(cljs.core.truth_(and__3822__auto____105640)) {
+        return board.call(null, fy__105636).call(null, fx__105635) == null
       }else {
-        return and__3822__auto____2366497
+        return and__3822__auto____105640
       }
     }else {
-      return and__3822__auto____2366495
+      return and__3822__auto____105638
     }
-  }, shape__2366486))
+  }, shape__105629))
 };
 eviltetris.core.rotate_shape = function rotate_shape(shape) {
   return cljs.core.mapv.call(null, function(s) {
-    var vec__2366503__2366504 = s;
-    var x__2366505 = cljs.core.nth.call(null, vec__2366503__2366504, 0, null);
-    var y__2366506 = cljs.core.nth.call(null, vec__2366503__2366504, 1, null);
-    var color__2366507 = cljs.core.nth.call(null, vec__2366503__2366504, 2, null);
-    return cljs.core.PersistentVector.fromArray([y__2366506, x__2366505, color__2366507], true)
+    var vec__105646__105647 = s;
+    var x__105648 = cljs.core.nth.call(null, vec__105646__105647, 0, null);
+    var y__105649 = cljs.core.nth.call(null, vec__105646__105647, 1, null);
+    var color__105650 = cljs.core.nth.call(null, vec__105646__105647, 2, null);
+    return cljs.core.PersistentVector.fromArray([y__105649, x__105648, color__105650], true)
   }, shape)
 };
 eviltetris.core.tick = function tick() {
@@ -27589,13 +27877,19 @@ eviltetris.core.tick = function tick() {
 eviltetris.core.move_down = function move_down(piece) {
   return cljs.core.assoc.call(null, piece, 1, cljs.core.second.call(null, piece) + 1)
 };
+eviltetris.core.move_left = function move_left(piece) {
+  return cljs.core.assoc.call(null, piece, 0, cljs.core.first.call(null, piece) - 1)
+};
+eviltetris.core.move_right = function move_right(piece) {
+  return cljs.core.assoc.call(null, piece, 0, cljs.core.first.call(null, piece) + 1)
+};
 eviltetris.core.get_next_piece = function get_next_piece() {
   return cljs.core.PersistentVector.fromArray([3, 0, cljs.core.rand_nth.call(null, eviltetris.core.shapes)], true)
 };
 eviltetris.core.next_tick = function next_tick(ctx, board, piece, tick) {
   return setTimeout(function() {
-    return eviltetris.core.main_loop.call(null, ctx, board, eviltetris.core.move_down.call(null, piece), tick)
-  }, 250)
+    return eviltetris.core.main_loop.call(null, ctx, board, piece, tick)
+  }, 100)
 };
 eviltetris.core.main_loop = function() {
   var main_loop = null;
@@ -27604,10 +27898,23 @@ eviltetris.core.main_loop = function() {
   };
   var main_loop__4 = function(ctx, board, piece, previous_tick) {
     eviltetris.core.paint_board.call(null, ctx, eviltetris.core.overlay.call(null, board, piece));
-    if(cljs.core.truth_(eviltetris.core.collides_QMARK_.call(null, board, eviltetris.core.move_down.call(null, piece)))) {
-      return eviltetris.core.next_tick.call(null, ctx, eviltetris.core.overlay.call(null, board, piece), eviltetris.core.get_next_piece.call(null), eviltetris.core.tick.call(null))
+    var last_key__105652 = eviltetris.core.consume_keypress.call(null);
+    if(cljs.core._EQ_.call(null, last_key__105652, 37)) {
+      return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_left.call(null, piece), eviltetris.core.tick.call(null))
     }else {
-      return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_down.call(null, piece), eviltetris.core.tick.call(null))
+      if(cljs.core._EQ_.call(null, last_key__105652, 39)) {
+        return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_right.call(null, piece), eviltetris.core.tick.call(null))
+      }else {
+        if("\ufdd0'else") {
+          if(cljs.core.truth_(eviltetris.core.collides_QMARK_.call(null, board, eviltetris.core.move_down.call(null, piece)))) {
+            return eviltetris.core.next_tick.call(null, ctx, eviltetris.core.overlay.call(null, board, piece), eviltetris.core.get_next_piece.call(null), eviltetris.core.tick.call(null))
+          }else {
+            return eviltetris.core.next_tick.call(null, ctx, board, eviltetris.core.move_down.call(null, piece), eviltetris.core.tick.call(null))
+          }
+        }else {
+          return null
+        }
+      }
     }
   };
   main_loop = function(ctx, board, piece, previous_tick) {
@@ -27627,9 +27934,11 @@ eviltetris.core.create_board = function create_board() {
   return cljs.core.vec.call(null, cljs.core.take.call(null, 20, cljs.core.repeat.call(null, cljs.core.vec.call(null, cljs.core.take.call(null, 10, cljs.core.repeat.call(null, null))))))
 };
 eviltetris.core.init = function init() {
-  var canvas__2366511 = document.getElementById("canvas");
-  var ctx__2366512 = canvas__2366511.getContext("2d");
-  var board__2366513 = eviltetris.core.create_board.call(null);
-  return eviltetris.core.main_loop.call(null, ctx__2366512, board__2366513)
+  var canvas__105657 = document.getElementById("canvas");
+  var ctx__105658 = canvas__105657.getContext("2d");
+  var board__105659 = eviltetris.core.create_board.call(null);
+  var handler__105660 = new goog.events.KeyHandler(document, true);
+  goog.events.listen(handler__105660, "key", eviltetris.core.keypress);
+  return eviltetris.core.main_loop.call(null, ctx__105658, board__105659)
 };
 goog.exportSymbol("eviltetris.core.init", eviltetris.core.init);
