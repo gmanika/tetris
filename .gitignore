@@ -12,6 +12,6 @@ pom.xml
 /.lein*
 *.swp
 *~
-out
+/out
 /resources/public/main.js
 
