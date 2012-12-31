@@ -162,6 +162,14 @@
   [piece]
   (assoc piece 0 (inc (first piece))))
 
+(defn hard-drop
+  [board piece]
+  (loop [p piece]
+    (if (collides? board (move-down p))
+      p
+      (recur (move-down p)))))
+  
+
 (defn get-next-piece
   []
   [3 0 (cycle (rand-nth shapes))])
@@ -205,6 +213,7 @@
         (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick ctx board (rotate piece) previous-tick)
         (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick ctx board (move-right piece) previous-tick)
         (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick ctx board (move-left piece) previous-tick)
+        (= last-key 32) (next-tick ctx board (hard-drop board piece) previous-tick)
         (< (- (tick) previous-tick) 400) (next-tick ctx board piece previous-tick)
         (collides? board (move-down piece)) (next-tick ctx (remove-lines (overlay board piece)) (get-next-piece) (tick))
         :else  (next-tick ctx board (move-down piece) (tick))))))
