@@ -191,11 +191,6 @@
         (swap! q rest)
         [3 0 (cycle next-piece)]))))
 
-(defn get-next-piece
-  []
-  [3 0 (cycle (rand-nth shapes))])
-
-
 (defn create-line
   []
     (vec (take 10 (repeat nil))))
