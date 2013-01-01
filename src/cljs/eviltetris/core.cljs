@@ -182,6 +182,15 @@
       (recur (move-down board p)))))
   
 
+(defn random-bag
+  []
+  (let [bag-seq (mapcat identity (repeatedly #(shuffle shapes)))
+        q (atom bag-seq)]
+    (fn [board]
+      (let [next-piece (first @q)]
+        (swap! q rest)
+        [3 0 (cycle next-piece)]))))
+
 (defn get-next-piece
   []
   [3 0 (cycle (rand-nth shapes))])
@@ -232,37 +241,41 @@
 
 (defn main-loop
   [state]
-    (let [{:keys [ctx board piece score tick last-tick]} state
+    (let [{:keys [ctx board piece score tick last-tick piece-generator]} state
           last-key (consume-keypress)
-          current-tick (get-tick)]
+          current-tick (get-tick)
+          piece (or piece (piece-generator board))]
       (if (collides? board piece)
         (game-over state)
         (do
           (paint-board (:ctx state) (overlay (:board state) (:piece state)))
           (next-tick
             (cond
-              (collides? board piece) (game-over state)
               (= last-key 37) (assoc state :piece (move-left board piece))
               (= last-key 38) (assoc state :piece (rotate board piece))
               (= last-key 39) (assoc state :piece (move-right board piece))
               (= last-key 40) (assoc state :piece (move-down board piece))
               (= last-key 32) (assoc state :piece (hard-drop board piece))
               (< (- current-tick last-tick) tick) state
-              (= piece (move-down board piece)) (assoc state :score (+ score (account-lines (overlay board piece)))
-                                                               :board (remove-lines (overlay board piece))
-                                                               :piece (get-next-piece)
-                                                               :last-tick current-tick)
+              (= piece (move-down board piece)) (let [overlaid-board (overlay board piece)
+                                                      new-board (remove-lines overlaid-board)]
+                                                   (assoc state :score (+ score (account-lines overlaid-board))
+                                                                :board new-board
+                                                                :piece (piece-generator new-board)
+                                                                :last-tick
+                                                                current-tick))
               :else  (assoc state :piece (move-down board piece)
                                   :last-tick current-tick)))))))
 
 (defn create-game-state
-  [ctx]
+  [ctx piece-generator]
   { :ctx ctx
     :board (create-board)
-    :piece (get-next-piece)
+    :piece nil
     :score  0
     :tick 350
-    :last-tick (get-tick)})
+    :piece-generator piece-generator
+    :last-tick 0})
     
 (defn ^:export start-game
   []
@@ -272,7 +285,7 @@
         board (create-board)
         gameover (.getElementById js/document "gameover")]
     (set! (.-visibility (.-style gameover)) "hidden")
-    (main-loop (create-game-state ctx))))
+    (main-loop (create-game-state ctx (random-bag)))))
 
 (defn ^:export init
   []
