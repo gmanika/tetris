@@ -141,33 +141,45 @@
                    (< -1 fy 20)
                    (nil? ((board fy) fx))))) (first shape)))))
              
-(defn rotate
-  [piece]
-  (let [[px py shape] piece]
-    [px py (next shape)]))
-
 (defn get-tick
   []
   (.getTime (js/Date.)))
 
+
+(defn new-or-original
+  [board new original]
+  (if (collides? board new)
+    original
+    new))
+
 (defn move-down
-  [piece]
-  (assoc piece 1 (inc (second piece))))
+  [board piece]
+  (let [new-piece (assoc piece 1 (inc (second piece)))]
+    (new-or-original board new-piece piece)))
 
 (defn move-left
-  [piece]
-  (assoc piece 0 (dec (first piece))))
+  [board piece]
+  (let [new-piece (assoc piece 0 (dec (first piece)))]
+    (new-or-original board new-piece piece)))
 
 (defn move-right
-  [piece]
-  (assoc piece 0 (inc (first piece))))
+  [board piece]
+  (let [new-piece (assoc piece 0 (inc (first piece)))]
+    (new-or-original board new-piece piece)))
+
+(defn rotate
+  [board piece]
+  (let [[px py shape] piece
+        new-piece [px py (next shape)]]
+    (new-or-original board new-piece piece)))
+
 
 (defn hard-drop
   [board piece]
   (loop [p piece]
-    (if (collides? board (move-down p))
+    (if (= p (move-down board p))
       p
-      (recur (move-down p)))))
+      (recur (move-down board p)))))
   
 
 (defn get-next-piece
@@ -230,17 +242,17 @@
           (next-tick
             (cond
               (collides? board piece) (game-over state)
-              (and (= last-key 37) (not (collides? board (move-left piece)))) (assoc state :piece (move-left piece))
-              (and (= last-key 38) (not (collides? board (rotate piece)))) (assoc state :piece (rotate piece))
-              (and (= last-key 39) (not (collides? board (move-right piece)))) (assoc state :piece (move-right piece))
-              (and (= last-key 40) (not (collides? board (move-down piece)))) (assoc state :piece (move-down piece))
+              (= last-key 37) (assoc state :piece (move-left board piece))
+              (= last-key 38) (assoc state :piece (rotate board piece))
+              (= last-key 39) (assoc state :piece (move-right board piece))
+              (= last-key 40) (assoc state :piece (move-down board piece))
               (= last-key 32) (assoc state :piece (hard-drop board piece))
               (< (- current-tick last-tick) tick) state
-              (collides? board (move-down piece)) (assoc state :score (+ score (account-lines (overlay board piece)))
+              (= piece (move-down board piece)) (assoc state :score (+ score (account-lines (overlay board piece)))
                                                                :board (remove-lines (overlay board piece))
                                                                :piece (get-next-piece)
                                                                :last-tick current-tick)
-              :else  (assoc state :piece (move-down piece)
+              :else  (assoc state :piece (move-down board piece)
                                   :last-tick current-tick)))))))
 
 (defn create-game-state
