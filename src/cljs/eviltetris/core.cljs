@@ -183,14 +183,20 @@
   []
   (vec (take 20 (repeat (create-line)))))
 
-(declare main-loop)
+
+(defn format-score
+  [score]
+  (cond
+    (< score 1) "No lines"
+    (< score 2) "1 line"
+    :else (str score " lines")))
 
 (defn game-over
   [state]
   (let [gameover (.getElementById js/document "gameover")
         scoreline (.getElementById js/document "score")]
     (set! (.-visibility (.-style gameover)) "visible")
-    (set! (.-innerHTML scoreline) (str (state :score) " lines"))))
+    (set! (.-innerHTML scoreline) (format-score (state :score)))))
 
 (defn line-full?
   [line]
@@ -206,33 +212,36 @@
   [board]
   (count (filter line-full? board)))
 
+(declare main-loop)
+
 (defn next-tick
   [state]
   (js/setTimeout #(main-loop state) 5))
 
-
 (defn main-loop
   [state]
-    (let [{:keys [ctx board piece score tick]} state
-          last-key (consume-keypress)]
+    (let [{:keys [ctx board piece score tick last-tick]} state
+          last-key (consume-keypress)
+          current-tick (get-tick)]
       (if (collides? board piece)
         (game-over state)
         (do
           (paint-board (:ctx state) (overlay (:board state) (:piece state)))
-          (cond
-            (collides? board piece) (game-over state)
-            (and (= last-key 37) (not (collides? board (move-left piece)))) (next-tick (assoc state :piece (move-left piece)))
-            (and (= last-key 38) (not (collides? board (rotate piece)))) (next-tick (assoc state :piece (rotate piece)))
-            (and (= last-key 39) (not (collides? board (move-right piece)))) (next-tick (assoc state :piece (move-right piece)))
-            (and (= last-key 40) (not (collides? board (move-down piece)))) (next-tick (assoc state :piece (move-down piece)))
-            (= last-key 32) (next-tick (assoc state :piece (hard-drop board piece)))
-            (< (- (get-tick) tick) 350) (next-tick state)
-            (collides? board (move-down piece)) (next-tick (assoc state :score (+ score (account-lines board))
-                                                                        :board (remove-lines (overlay board piece))
-                                                                        :piece (get-next-piece)
-                                                                        :tick (get-tick)))
-            :else  (next-tick (assoc state :piece (move-down piece)
-                                           :tick (get-tick))))))))
+          (next-tick
+            (cond
+              (collides? board piece) (game-over state)
+              (and (= last-key 37) (not (collides? board (move-left piece)))) (assoc state :piece (move-left piece))
+              (and (= last-key 38) (not (collides? board (rotate piece)))) (assoc state :piece (rotate piece))
+              (and (= last-key 39) (not (collides? board (move-right piece)))) (assoc state :piece (move-right piece))
+              (and (= last-key 40) (not (collides? board (move-down piece)))) (assoc state :piece (move-down piece))
+              (= last-key 32) (assoc state :piece (hard-drop board piece))
+              (< (- current-tick last-tick) tick) state
+              (collides? board (move-down piece)) (assoc state :score (+ score (account-lines (overlay board piece)))
+                                                               :board (remove-lines (overlay board piece))
+                                                               :piece (get-next-piece)
+                                                               :last-tick current-tick)
+              :else  (assoc state :piece (move-down piece)
+                                  :last-tick current-tick)))))))
 
 (defn create-game-state
   [ctx]
@@ -240,7 +249,8 @@
     :board (create-board)
     :piece (get-next-piece)
     :score  0
-    :tick (get-tick)})
+    :tick 350
+    :last-tick (get-tick)})
     
 (defn ^:export start-game
   []
