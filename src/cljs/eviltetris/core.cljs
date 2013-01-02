@@ -6,21 +6,32 @@
 (repl/connect "http://localhost:9000/repl")
 
 
-(defn load-image
+(defn fill-rect
+  [ctx x y sx sy color]
+  (set! (. ctx -fillStyle) color)
+  (.fillRect ctx x y sx sy))
+
+(defn piece-painter
   [file]
   (let [image (js/Image.)]
     (set! (.-src image) (str "images/" file))
-    image))
+    (fn [ctx x y]
+      (.drawImage ctx image x y))))
+
+
+(defn ghost-painter
+  [ctx x y]
+    (fill-rect ctx x y 24 24 "rgba(255, 255, 255, 0.1)"))
 
 (def images
-  { :blue (load-image "blue.png")
-    :cyan (load-image "cyan.png")
-    :green (load-image "green.png")
-    :magenta (load-image "magenta.png")
-    :orange (load-image "orange.png")
-    :red (load-image "red.png")
-    :yellow (load-image "yellow.png") })
-
+  { :blue (piece-painter "blue.png")
+    :cyan (piece-painter "cyan.png")
+    :green (piece-painter "green.png")
+    :magenta (piece-painter "magenta.png")
+    :orange (piece-painter "orange.png")
+    :red (piece-painter "red.png")
+    :yellow (piece-painter "yellow.png")
+    :ghost ghost-painter})
 
 ; http://tetris.wikia.com/wiki/Sega_Rotation
 (def shapes
@@ -83,16 +94,9 @@
     (set! *last-key-pressed* nil)
     lastkey))
 
-(defn fill-rect
-  [ctx x y sx sy color]
-
-  (set! (. ctx -fillStyle) color)
-  (.fillRect ctx x y sx sy))
-
 (defn paint-block
   [ctx x y color]
-  (.drawImage ctx (images color) (* x 24) (* y 24)))
-
+  ((images color) ctx (* x 24) (* y 24)))
 
 (defn paint-board
   [ctx board]
@@ -101,16 +105,11 @@
     (for [x (range 10)
           y (range 20)]
       (when-let [color ((board y) x)]
-          (paint-block ctx x y color)))))
+        (paint-block ctx x y color)))))
 
 (defn patch-board
   [board color x y]
   (assoc board y (assoc (board y) x color)))
-
-(defn test-pattern
-  [board]
-  (patch-board board (rand-nth (keys images)) (rand-int 10) (rand-int 20)))
-
 
 (defn overlay
   [board piece]
@@ -218,6 +217,12 @@
   [board]
   (count (filter line-full? board)))
 
+
+(defn ghostify
+  [piece]
+  (let [ghost (first (piece 2))]
+    (assoc piece 2 [(mapv #(assoc % 2 :ghost) ghost)])))
+
 (declare main-loop)
 
 (defn next-tick
@@ -233,7 +238,9 @@
       (if (collides? board piece)
         (game-over state)
         (do
-          (paint-board (:ctx state) (overlay (:board state) (:piece state)))
+          (paint-board (:ctx state) (-> board
+                                        (overlay (ghostify (hard-drop board piece)))
+                                        (overlay piece)))
           (next-tick
             (cond
               (= last-key 37) (assoc state :piece (move-left board piece))
