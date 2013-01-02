@@ -11,9 +11,10 @@
 
   :ring {:handler eviltetris.handler/serve}
   :cljsbuild {
-    :builds [{
+    :builds {
+      :dev
       ; The path to the top-level ClojureScript source directory:
-      :source-path "src/cljs"
-      :compiler { :output-to "resources/public/main.js" }
-      :optimizations :whitespace
-      :pretty-print true}]})
+      { :source-path "src/cljs"
+        :compiler { :output-to "resources/public/main.js"  
+                    :optimizations :whitespace 
+                    :pretty-print true }}}})
