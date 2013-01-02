@@ -67,16 +67,6 @@
 
      ])
 
-;(def shapes
-;  [ [ [0 0 :cyan] [0 1 :cyan] [0 2 :cyan] [0 3 :cyan] ]
-;    [ [0 0 :blue] [0 1 :blue] [1 1 :blue] [2 1 :blue] ]
-;    [ [0 1 :orange] [1 1 :orange] [2 1 :orange] [2 0 :orange] ]
-;    [ [0 0 :yellow] [0 1 :yellow] [1 0 :yellow] [1 1 :yellow] ]
-;    [ [0 1 :green] [1 1 :green] [1 0 :green] [2 0 :green] ]
-;    [ [0 0 :red] [1 0 :red] [1 1 :red] [2 1 :red] ]
-;    [ [0 1 :magenta] [1 1 :magenta] [1 0 :magenta] [2 1 :magenta] ]
-;    ])
-
 
 (def *last-key-pressed* nil)
 
