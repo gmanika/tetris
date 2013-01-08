@@ -1,4 +1,4 @@
-(ns eviltetris.handler
+(ns tetris.handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]

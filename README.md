@@ -1,13 +1,14 @@
-# eviltetris
+# tetris
 
-An evil tetris.
+A completely unnecessary Tetris clone written in ClojureScript.
 
-## Usage
+Play it here: http://gmanika.github.com/tetris
 
-FIXME
+## Development
 
-## License
+lein cljsbuild auto
+lein ring start
+http://localhost:3000/index.html
 
-Copyright © 2012 FIXME
 
-Distributed under the Eclipse Public License, the same as Clojure.
+

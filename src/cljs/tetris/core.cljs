@@ -1,4 +1,4 @@
-(ns eviltetris.core
+(ns tetris.core
    (:require [clojure.browser.repl :as repl]
              [goog.events :as events]
              [goog.events.KeyHandler :as key-handler]))

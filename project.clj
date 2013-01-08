@@ -1,4 +1,4 @@
-(defproject eviltetris "0.1.0"
+(defproject tetris "0.1.0"
   :description "An evil tetris"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [org.clojure/clojurescript "0.0-1450"]
@@ -9,12 +9,12 @@
 
   :source-paths ["src/clj"]
 
-  :ring {:handler eviltetris.handler/serve}
+  :ring {:handler tetris.handler/serve}
   :cljsbuild {
     :builds {
       :dev
       ; The path to the top-level ClojureScript source directory:
       { :source-path "src/cljs"
         :compiler { :output-to "resources/public/main.js"  
-                    :optimizations :whitespace 
-                    :pretty-print true }}}})
+                    :optimizations :simple
+                    :pretty-print false }}}})
