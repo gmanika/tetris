@@ -1,0 +1,49 @@
+<html>
+<head>
+<style>
+#title {
+  font-family: "Impact";
+  font-size: 35px;
+}
+#game {
+  width: 240;
+  margin-left: auto;
+  margin-right: auto;
+}
+#gameover {
+  visibility: hidden;
+  position: relative;
+  top: -400px;
+  left: +50px;
+  color: black;
+  background-color: white;
+  width: 140px;
+  text-align: center;
+  padding: 5px;
+  font-family: "Impact";
+  font-size: 25px;
+}
+
+#gameover input {
+  font-size: 25px;
+}
+  
+</style>
+</head>
+<body>
+<div id="game">
+<div id="title">Tetris</div>
+<canvas id="canvas" width="240" height="528">
+</canvas>
+<div id="gameover">
+GAME OVER!<br>
+<span id="score">25 lines</span><br>
+<input type="button" value="Try again!" onclick="javascript:tetris.core.start_game();">
+</div>
+</div>
+<script src="main.js"></script>
+<script>
+tetris.core.init();
+</script>
+</body>
+</html>
